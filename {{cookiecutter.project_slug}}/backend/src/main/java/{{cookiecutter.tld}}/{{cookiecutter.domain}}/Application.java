@@ -1,4 +1,4 @@
-package {{cookiecutter.tld}}.{{cookiecutter.domain}};
+package{{cookiecutter.tld}}.{{cookiecutter.domain}};
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import io.trishul.tenant.persistence.config.PackageScanConfig;
 
-@SpringBootApplication
-@EnableJpaRepositories
+@SpringBootApplication(scanBasePackages = { "{{cookiecutter.tld}}.{{cookiecutter.domain}}", "io.trishul" })
+@EnableJpaRepositories(basePackages = { "{{cookiecutter.tld}}.{{cookiecutter.domain}}", "io.trishul" })
 @EnableTransactionManagement
 public class Application {
   public static void main(String[] args) {

@@ -1,7 +1,9 @@
+name: {{cookiecutter.project_slug}}-backend
+
 services:
   app:
     image: {{cookiecutter.project_slug}}-backend:${VERSION}
-    container_name: {{cookiecutter.project_slug}}-backend
+    container_name: app
     ports:
       - "8080:8080"
     environment:
@@ -34,3 +36,7 @@ services:
       AWS_COGNITO_IDENTITY_POOL_ID: ${AWS_COGNITO_IDENTITY_POOL_ID}
       AWS_COGNITO_USER_POOL_URL: ${AWS_COGNITO_USER_POOL_URL}
       APP_HOST_URLS: ${APP_HOST_URLS}
+      TRISHUL_TENANT_MIGRATION_ON_STARTUP_ENABLED: ${TRISHUL_TENANT_MIGRATION_ON_STARTUP_ENABLED}
+      ADMIN_TENANT_NAME: ${ADMIN_TENANT_NAME}
+      ADMIN_DS_SCHEMA_PREFIX: ${ADMIN_DS_SCHEMA_PREFIX}
+      TENANT_DS_SCHEMA_PREFIX: ${TENANT_DS_SCHEMA_PREFIX}
