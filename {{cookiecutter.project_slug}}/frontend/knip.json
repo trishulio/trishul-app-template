@@ -20,5 +20,9 @@
     "eslint.config.js",
     "knip.json"
   ],
-  "ignoreExportsUsedInFile": true
+  "ignoreExportsUsedInFile": true,
+  "ignoreDependencies": [
+    "axios",
+    "husky"
+  ]
 }
