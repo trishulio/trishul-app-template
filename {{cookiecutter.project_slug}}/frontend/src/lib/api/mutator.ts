@@ -4,12 +4,18 @@ import Axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 
-export const AXIOS_INSTANCE = Axios.create({
-  headers: {
-    "Content-Type": "application/json",
-    "X-TENANT-ID": import.meta.env.VITE_TENANT_ID,
-  },
-});
+const headers: Record<string, string> = {
+  "Content-Type": "application/json",
+};
+
+// Tenant ID will be injected by Vite at build time
+const tenantId = import.meta.env.VITE_TENANT_ID;
+if (tenantId) {
+  headers["Content-Type"] = "application/json";
+  headers["X-TENANT-ID"] = tenantId;
+}
+
+export const AXIOS_INSTANCE = Axios.create({ headers });
 
 // add a request interceptor
 AXIOS_INSTANCE.interceptors.request.use(

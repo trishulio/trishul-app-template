@@ -44,4 +44,10 @@ export default defineConfig({
     host: true,
     port: 3000,
   },
+  build: {
+    target: "ES2020",
+  },
+  esbuild: {
+    target: "ES2020",
+  },
 });
