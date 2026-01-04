@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@5.30.6/schema.json",
+  "entry": [
+    "src/main.tsx"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}",
+    "!src/lib/api/**"
+  ],
+  "ignore": [
+    "src/components/index.ts",
+    "src/hooks/index.ts",
+    "src/lib/auth/configureAmplify.ts",
+    "src/lib/errorHandler.ts",
+    "src/lib/api/**",
+    "orval.config.ts",
+    "tailwind.config.js",
+    "vite.config.ts",
+    "tsconfig*.json",
+    "eslint.config.js",
+    "knip.json"
+  ],
+  "ignoreExportsUsedInFile": true
+}
