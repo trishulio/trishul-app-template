@@ -1,12 +1,7 @@
 {
   "$schema": "https://unpkg.com/knip@5.30.6/schema.json",
-  "entry": [
-    "src/main.tsx"
-  ],
-  "project": [
-    "src/**/*.{ts,tsx}",
-    "!src/lib/api/**"
-  ],
+  "entry": ["src/main.tsx"],
+  "project": ["src/**/*.{ts,tsx}", "!src/lib/api/**"],
   "ignore": [
     "src/components/index.ts",
     "src/hooks/index.ts",
@@ -21,8 +16,5 @@
     "knip.json"
   ],
   "ignoreExportsUsedInFile": true,
-  "ignoreDependencies": [
-    "axios",
-    "husky"
-  ]
+  "ignoreDependencies": ["axios", "husky"]
 }
