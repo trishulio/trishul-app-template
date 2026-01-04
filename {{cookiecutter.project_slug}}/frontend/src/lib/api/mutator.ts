@@ -7,6 +7,7 @@ import Axios, {
 export const AXIOS_INSTANCE = Axios.create({
   headers: {
     "Content-Type": "application/json",
+    "X-TENANT-ID": import.meta.env.VITE_TENANT_ID,
   },
 });
 
