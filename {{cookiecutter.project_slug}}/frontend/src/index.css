@@ -60,6 +60,19 @@
 @layer base {
   * {
     border-color: hsl(var(--border));
+    /* Native touch optimizations */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Allow text selection for inputs and text areas */
+  input,
+  textarea,
+  [contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
   }
 
   html,
@@ -85,6 +98,8 @@
     /* Mobile viewport fixes */
     height: 100vh;
     height: 100dvh;
+    /* Smooth native scrolling */
+    -webkit-overflow-scrolling: touch;
   }
 
   /* App container & scroll areas from v3 */
@@ -289,5 +304,5 @@
   @apply text-blue-600 bg-blue-50;
 }
 .tab-button.inactive {
-  @apply text-gray-500 hover:text-blue-600 hover:bg-blue-50;
+  @apply text-gray-500 active:text-blue-600 active:bg-blue-50;
 }
