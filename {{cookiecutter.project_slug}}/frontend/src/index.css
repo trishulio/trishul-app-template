@@ -75,11 +75,8 @@
     user-select: text;
   }
 
-  html,
-  body,
-  #root {
+  html {
     height: 100%;
-    overflow: hidden;
   }
 
   body {
@@ -101,6 +98,10 @@
     /* Smooth native scrolling */
     -webkit-overflow-scrolling: touch;
   }
+
+#root {
+  min-height: 100vh;
+}
 
   /* App container & scroll areas from v3 */
   .app-container {
