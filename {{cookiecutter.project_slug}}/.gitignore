@@ -69,6 +69,8 @@ lerna-debug.log*
 
 ### Environment and Configuration ###
 .env
+.env.development
+.env.production
 dependency-check-data/
 
 ### Terraform ###

@@ -129,14 +129,14 @@ export function useGetAllInfinite<
     query: Partial<
       UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAll>>,
-        TError,
-        Awaited<ReturnType<typeof getAll>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAll>>,
+          TError,
+          Awaited<ReturnType<typeof getAll>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -152,14 +152,14 @@ export function useGetAllInfinite<
     query?: Partial<
       UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAll>>,
-        TError,
-        Awaited<ReturnType<typeof getAll>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAll>>,
+          TError,
+          Awaited<ReturnType<typeof getAll>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -250,14 +250,14 @@ export function useGetAll<
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAll>>,
-        TError,
-        Awaited<ReturnType<typeof getAll>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAll>>,
+          TError,
+          Awaited<ReturnType<typeof getAll>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -273,14 +273,14 @@ export function useGetAll<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAll>>,
-        TError,
-        Awaited<ReturnType<typeof getAll>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAll>>,
+          TError,
+          Awaited<ReturnType<typeof getAll>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -735,14 +735,14 @@ export function useGetAll1Infinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAll1>>,
-        TError,
-        Awaited<ReturnType<typeof getAll1>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAll1>>,
+          TError,
+          Awaited<ReturnType<typeof getAll1>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -762,14 +762,14 @@ export function useGetAll1Infinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAll1>>,
-        TError,
-        Awaited<ReturnType<typeof getAll1>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAll1>>,
+          TError,
+          Awaited<ReturnType<typeof getAll1>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -870,14 +870,14 @@ export function useGetAll1<
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAll1>>,
-        TError,
-        Awaited<ReturnType<typeof getAll1>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAll1>>,
+          TError,
+          Awaited<ReturnType<typeof getAll1>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -893,14 +893,14 @@ export function useGetAll1<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAll1>>,
-        TError,
-        Awaited<ReturnType<typeof getAll1>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAll1>>,
+          TError,
+          Awaited<ReturnType<typeof getAll1>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -1358,14 +1358,14 @@ export function useGetAllUsersInfinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAllUsers>>,
-        TError,
-        Awaited<ReturnType<typeof getAllUsers>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUsers>>,
+          TError,
+          Awaited<ReturnType<typeof getAllUsers>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -1385,14 +1385,14 @@ export function useGetAllUsersInfinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAllUsers>>,
-        TError,
-        Awaited<ReturnType<typeof getAllUsers>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUsers>>,
+          TError,
+          Awaited<ReturnType<typeof getAllUsers>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -1493,14 +1493,14 @@ export function useGetAllUsers<
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAllUsers>>,
-        TError,
-        Awaited<ReturnType<typeof getAllUsers>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUsers>>,
+          TError,
+          Awaited<ReturnType<typeof getAllUsers>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -1516,14 +1516,14 @@ export function useGetAllUsers<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAllUsers>>,
-        TError,
-        Awaited<ReturnType<typeof getAllUsers>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUsers>>,
+          TError,
+          Awaited<ReturnType<typeof getAllUsers>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -1981,14 +1981,14 @@ export function useGetAllUserRolesInfinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAllUserRoles>>,
-        TError,
-        Awaited<ReturnType<typeof getAllUserRoles>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUserRoles>>,
+          TError,
+          Awaited<ReturnType<typeof getAllUserRoles>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -2008,14 +2008,14 @@ export function useGetAllUserRolesInfinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAllUserRoles>>,
-        TError,
-        Awaited<ReturnType<typeof getAllUserRoles>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUserRoles>>,
+          TError,
+          Awaited<ReturnType<typeof getAllUserRoles>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -2124,14 +2124,14 @@ export function useGetAllUserRoles<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAllUserRoles>>,
-        TError,
-        Awaited<ReturnType<typeof getAllUserRoles>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUserRoles>>,
+          TError,
+          Awaited<ReturnType<typeof getAllUserRoles>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -2151,14 +2151,14 @@ export function useGetAllUserRoles<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getAllUserRoles>>,
-        TError,
-        Awaited<ReturnType<typeof getAllUserRoles>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUserRoles>>,
+          TError,
+          Awaited<ReturnType<typeof getAllUserRoles>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -2633,14 +2633,14 @@ export function useGetTenantInfinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getTenant>>,
-        TError,
-        Awaited<ReturnType<typeof getTenant>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTenant>>,
+          TError,
+          Awaited<ReturnType<typeof getTenant>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -2661,14 +2661,14 @@ export function useGetTenantInfinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getTenant>>,
-        TError,
-        Awaited<ReturnType<typeof getTenant>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTenant>>,
+          TError,
+          Awaited<ReturnType<typeof getTenant>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -2776,14 +2776,14 @@ export function useGetTenant<
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getTenant>>,
-        TError,
-        Awaited<ReturnType<typeof getTenant>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTenant>>,
+          TError,
+          Awaited<ReturnType<typeof getTenant>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -2800,14 +2800,14 @@ export function useGetTenant<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getTenant>>,
-        TError,
-        Awaited<ReturnType<typeof getTenant>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTenant>>,
+          TError,
+          Awaited<ReturnType<typeof getTenant>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -2915,7 +2915,7 @@ export const getGetIaasObjectStoreFileInfiniteQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getIaasObjectStoreFile>>
   > = ({ signal }) =>
-      getIaasObjectStoreFile(fileId, params, requestOptions, signal);
+    getIaasObjectStoreFile(fileId, params, requestOptions, signal);
 
   return {
     queryKey,
@@ -2948,14 +2948,14 @@ export function useGetIaasObjectStoreFileInfinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
-        TError,
-        Awaited<ReturnType<typeof getIaasObjectStoreFile>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+          TError,
+          Awaited<ReturnType<typeof getIaasObjectStoreFile>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -2976,14 +2976,14 @@ export function useGetIaasObjectStoreFileInfinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
-        TError,
-        Awaited<ReturnType<typeof getIaasObjectStoreFile>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+          TError,
+          Awaited<ReturnType<typeof getIaasObjectStoreFile>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3074,7 +3074,7 @@ export const getGetIaasObjectStoreFileQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getIaasObjectStoreFile>>
   > = ({ signal }) =>
-      getIaasObjectStoreFile(fileId, params, requestOptions, signal);
+    getIaasObjectStoreFile(fileId, params, requestOptions, signal);
 
   return {
     queryKey,
@@ -3107,14 +3107,14 @@ export function useGetIaasObjectStoreFile<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
-        TError,
-        Awaited<ReturnType<typeof getIaasObjectStoreFile>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+          TError,
+          Awaited<ReturnType<typeof getIaasObjectStoreFile>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3135,14 +3135,14 @@ export function useGetIaasObjectStoreFile<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
-        TError,
-        Awaited<ReturnType<typeof getIaasObjectStoreFile>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+          TError,
+          Awaited<ReturnType<typeof getIaasObjectStoreFile>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3290,14 +3290,14 @@ export function useGetUserInfinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUser>>,
-        TError,
-        Awaited<ReturnType<typeof getUser>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUser>>,
+          TError,
+          Awaited<ReturnType<typeof getUser>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3318,14 +3318,14 @@ export function useGetUserInfinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUser>>,
-        TError,
-        Awaited<ReturnType<typeof getUser>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUser>>,
+          TError,
+          Awaited<ReturnType<typeof getUser>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3433,14 +3433,14 @@ export function useGetUser<
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUser>>,
-        TError,
-        Awaited<ReturnType<typeof getUser>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUser>>,
+          TError,
+          Awaited<ReturnType<typeof getUser>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3457,14 +3457,14 @@ export function useGetUser<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUser>>,
-        TError,
-        Awaited<ReturnType<typeof getUser>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUser>>,
+          TError,
+          Awaited<ReturnType<typeof getUser>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3591,14 +3591,14 @@ export function useGetSalutationsInfinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getSalutations>>,
-        TError,
-        Awaited<ReturnType<typeof getSalutations>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSalutations>>,
+          TError,
+          Awaited<ReturnType<typeof getSalutations>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3618,14 +3618,14 @@ export function useGetSalutationsInfinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getSalutations>>,
-        TError,
-        Awaited<ReturnType<typeof getSalutations>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSalutations>>,
+          TError,
+          Awaited<ReturnType<typeof getSalutations>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3726,14 +3726,14 @@ export function useGetSalutations<
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getSalutations>>,
-        TError,
-        Awaited<ReturnType<typeof getSalutations>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSalutations>>,
+          TError,
+          Awaited<ReturnType<typeof getSalutations>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3749,14 +3749,14 @@ export function useGetSalutations<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getSalutations>>,
-        TError,
-        Awaited<ReturnType<typeof getSalutations>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSalutations>>,
+          TError,
+          Awaited<ReturnType<typeof getSalutations>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3893,14 +3893,14 @@ export function useGetUserRoleInfinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUserRole>>,
-        TError,
-        Awaited<ReturnType<typeof getUserRole>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserRole>>,
+          TError,
+          Awaited<ReturnType<typeof getUserRole>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -3921,14 +3921,14 @@ export function useGetUserRoleInfinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUserRole>>,
-        TError,
-        Awaited<ReturnType<typeof getUserRole>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserRole>>,
+          TError,
+          Awaited<ReturnType<typeof getUserRole>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4038,14 +4038,14 @@ export function useGetUserRole<
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUserRole>>,
-        TError,
-        Awaited<ReturnType<typeof getUserRole>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserRole>>,
+          TError,
+          Awaited<ReturnType<typeof getUserRole>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4062,14 +4062,14 @@ export function useGetUserRole<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUserRole>>,
-        TError,
-        Awaited<ReturnType<typeof getUserRole>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserRole>>,
+          TError,
+          Awaited<ReturnType<typeof getUserRole>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4194,14 +4194,14 @@ export function useGetUnitsInfinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUnits>>,
-        TError,
-        Awaited<ReturnType<typeof getUnits>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUnits>>,
+          TError,
+          Awaited<ReturnType<typeof getUnits>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4221,14 +4221,14 @@ export function useGetUnitsInfinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUnits>>,
-        TError,
-        Awaited<ReturnType<typeof getUnits>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUnits>>,
+          TError,
+          Awaited<ReturnType<typeof getUnits>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4329,14 +4329,14 @@ export function useGetUnits<
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUnits>>,
-        TError,
-        Awaited<ReturnType<typeof getUnits>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUnits>>,
+          TError,
+          Awaited<ReturnType<typeof getUnits>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4352,14 +4352,14 @@ export function useGetUnits<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getUnits>>,
-        TError,
-        Awaited<ReturnType<typeof getUnits>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUnits>>,
+          TError,
+          Awaited<ReturnType<typeof getUnits>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4484,14 +4484,14 @@ export function useGetCurrentUserInfinite<
         TData
       >
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getCurrentUser>>,
-        TError,
-        Awaited<ReturnType<typeof getCurrentUser>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCurrentUser>>,
+          TError,
+          Awaited<ReturnType<typeof getCurrentUser>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4511,14 +4511,14 @@ export function useGetCurrentUserInfinite<
         TData
       >
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getCurrentUser>>,
-        TError,
-        Awaited<ReturnType<typeof getCurrentUser>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCurrentUser>>,
+          TError,
+          Awaited<ReturnType<typeof getCurrentUser>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4619,14 +4619,14 @@ export function useGetCurrentUser<
     query: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getCurrentUser>>, TError, TData>
     > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getCurrentUser>>,
-        TError,
-        Awaited<ReturnType<typeof getCurrentUser>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCurrentUser>>,
+          TError,
+          Awaited<ReturnType<typeof getCurrentUser>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
@@ -4642,14 +4642,14 @@ export function useGetCurrentUser<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getCurrentUser>>, TError, TData>
     > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getCurrentUser>>,
-        TError,
-        Awaited<ReturnType<typeof getCurrentUser>>
-      >,
-      "initialData"
-    >;
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCurrentUser>>,
+          TError,
+          Awaited<ReturnType<typeof getCurrentUser>>
+        >,
+        "initialData"
+      >;
     request?: SecondParameter<typeof apiClient>;
   },
   queryClient?: QueryClient,
