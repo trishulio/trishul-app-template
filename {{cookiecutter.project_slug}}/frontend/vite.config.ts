@@ -46,6 +46,21 @@ export default defineConfig({
   },
   build: {
     target: "ES2020",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom", "react-router-dom"],
+          "vendor-query": ["@tanstack/react-query"],
+          "vendor-aws": ["aws-amplify"],
+          "vendor-ui": [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-progress",
+            "lucide-react",
+            "sonner",
+          ],
+        },
+      },
+    },
   },
   esbuild: {
     target: "ES2020",
