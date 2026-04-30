@@ -18,6 +18,7 @@ export * from "./getAll1Params";
 export * from "./getAllParams";
 export * from "./getAllUserRolesParams";
 export * from "./getAllUsersParams";
+export * from "./getCurrentUserParams";
 export * from "./getIaasObjectStoreFileParams";
 export * from "./getSalutationsParams";
 export * from "./getTenantParams";

@@ -11,6 +11,7 @@ export interface UpdateUserDto {
   displayName?: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
   statusId?: number;
   salutationId?: number;
   phoneNumber?: string;

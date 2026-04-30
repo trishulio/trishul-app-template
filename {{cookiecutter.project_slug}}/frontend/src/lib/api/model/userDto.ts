@@ -12,6 +12,7 @@ import type { UserRoleDto } from "./userRoleDto";
 export interface UserDto {
   id?: number;
   userName?: string;
+  iaasUsername?: string;
   displayName?: string;
   firstName?: string;
   lastName?: string;
