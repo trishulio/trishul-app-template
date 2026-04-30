@@ -3,23 +3,45 @@ import Axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from "axios";
+import { fetchAuthSession } from "aws-amplify/auth";
+import { getTenantId } from "@/lib/tenantStorage";
 
 const headers: Record<string, string> = {
   "Content-Type": "application/json",
 };
 
-// Tenant ID will be injected by Vite at build time
-const tenantId = import.meta.env.VITE_TENANT_ID;
-if (tenantId) {
-  headers["Content-Type"] = "application/json";
-  headers["X-TENANT-ID"] = tenantId;
-}
-
 export const AXIOS_INSTANCE = Axios.create({ headers });
 
 // add a request interceptor
 AXIOS_INSTANCE.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
+    try {
+      // Get the current auth session and add tokens to requests
+      const session = await fetchAuthSession();
+      const accessToken = session.tokens?.accessToken?.toString();
+      const idToken = session.tokens?.idToken?.toString();
+
+      // Send access token as Bearer token in Authorization header
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+
+      // Send ID token as X-Iaas-Token header
+      if (idToken) {
+        config.headers["X-Iaas-Token"] = idToken;
+      }
+
+      // Attach the active tenant ID from storage (set at login from Cognito groups).
+      // Temporary approach until the tenant-selection UI is implemented.
+      const tenantId = getTenantId();
+      if (tenantId) {
+        config.headers["X-TENANT-ID"] = tenantId;
+      }
+    } catch (error) {
+      // If not authenticated, proceed without tokens
+      console.warn("No auth session available:", error);
+    }
+
     return config;
   },
 );
