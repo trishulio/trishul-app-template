@@ -1,6 +1,6 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 
-const TENANT_ID_KEY = "lastminet-tenant-id";
+const TENANT_ID_KEY = "{{cookiecutter.project_slug}}-tenant-id";
 
 /**
  * Persist the active tenant ID in localStorage so that it survives page reloads.
