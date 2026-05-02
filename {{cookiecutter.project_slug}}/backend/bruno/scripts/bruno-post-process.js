@@ -133,9 +133,7 @@ fs.writeFileSync(envPath, envContent);
 const collectionBruPath = path.join(collectionPath, 'collection.bru');
 if (fs.existsSync(collectionBruPath)) {
   const collectionBruContent = `meta {
-{% endraw %}
-  name: {{cookiecutter.project_name}} API
-{% raw %}
+  name: {% endraw %}{{cookiecutter.project_name}}{% raw %} API
 }
 
 headers {
