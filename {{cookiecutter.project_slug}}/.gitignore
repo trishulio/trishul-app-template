@@ -96,3 +96,6 @@ terraform.rc
 .Trashes
 Thumbs.db
 ehthumbs.db
+
+bruno-collection/
+bruno.env

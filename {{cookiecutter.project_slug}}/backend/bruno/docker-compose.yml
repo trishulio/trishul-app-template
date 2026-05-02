@@ -1,0 +1,18 @@
+services:
+  bruno:
+    build:
+      context: ..
+      dockerfile: bruno/bruno.dockerfile
+    container_name: bruno
+    working_dir: /app
+    volumes:
+      - ../:/app
+      - ${HOME}/.bru:/root/.bru
+    environment:
+      COGNITO_CLIENT_SECRET: ${COGNITO_CLIENT_SECRET}
+      COGNITO_CLIENT_ID: ${COGNITO_CLIENT_ID}
+      COGNITO_URL: ${COGNITO_URL}
+      COGNITO_REDIRECT_URL: ${COGNITO_REDIRECT_URL}
+      URL: ${URL}
+      ACTIVE_TENANT_ID: ${ACTIVE_TENANT_ID}
+      TENANT_ID: ${TENANT_ID}
