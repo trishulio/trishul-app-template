@@ -1,3 +1,4 @@
+{% raw %}
 const fs = require('fs');
 const path = require('path');
 
@@ -132,9 +133,10 @@ fs.writeFileSync(envPath, envContent);
 const collectionBruPath = path.join(collectionPath, 'collection.bru');
 if (fs.existsSync(collectionBruPath)) {
   const collectionBruContent = `meta {
+{% endraw %}
   name: {{cookiecutter.project_name}} API
-}
 {% raw %}
+}
 
 headers {
   X-Iaas-Token: {{$oauth2.credentials.id_token}}
@@ -158,10 +160,11 @@ auth:oauth2 {
   token_header_prefix: Bearer
   token_id: credentials
 }
-{% endraw %}
+
 `;
   fs.writeFileSync(collectionBruPath, collectionBruContent);
   console.log('Updated collection.bru with OAuth2 Authorization Code configuration.');
 }
 
 console.log('Post-processing complete. baseUrl replaced with url, dummy payloads generated, and Local environment created.');
+{% endraw %}
