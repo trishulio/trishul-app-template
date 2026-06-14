@@ -1,4 +1,4 @@
-package{{cookiecutter.tld}}.{{cookiecutter.domain}};
+package {{cookiecutter.tld}}.{{cookiecutter.domain}};
 
 import java.sql.Connection;
 import java.sql.SQLException;
