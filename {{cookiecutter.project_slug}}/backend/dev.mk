@@ -16,4 +16,4 @@ app-prune:
 	$(DEV) down &&\
 	$(DEV) rm -v
 
-app-reset: app-prune app-run
+app-reset: app-down install app-run

@@ -1,4 +1,4 @@
-package {{cookiecutter.tld}}.{{cookiecutter.domain}};
+package{{cookiecutter.tld}}.{{cookiecutter.domain}};
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,7 +16,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@EnableJpaRepositories
 class ApplicationTests {
   private static final Logger log = LoggerFactory.getLogger(ApplicationTests.class);
 

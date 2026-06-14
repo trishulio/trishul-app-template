@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import io.trishul.tenant.persistence.config.PackageScanConfig;
 
-@SpringBootApplication(scanBasePackages = {"{{cookiecutter.tld}}.{{cookiecutter.domain}}", "io.trishul"})
-@EnableJpaRepositories(basePackages = {"{{cookiecutter.tld}}.{{cookiecutter.domain}}", "io.trishul"})
+@SpringBootApplication(scanBasePackages = { "{{cookiecutter.tld}}.{{cookiecutter.domain}}", "io.trishul" })
+@EnableJpaRepositories(basePackages = { "{{cookiecutter.tld}}.{{cookiecutter.domain}}", "io.trishul" })
 @EnableTransactionManagement
 public class Application {
   public static void main(String[] args) {
@@ -20,6 +20,6 @@ public class Application {
   @Bean
   @ConditionalOnMissingBean(PackageScanConfig.class)
   public PackageScanConfig packageScanConfig() {
-    return () -> new String[] {};
+    return () -> new String[] { "{{cookiecutter.tld}}.{{cookiecutter.domain}}" };
   }
 }
