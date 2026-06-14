@@ -38,15 +38,11 @@ export const useAuthStore = create<AuthState>()(
           // Temporary hack until the tenant-selection UI is implemented.
           await initTenantFromSession();
         } catch {
-          console.debug("No authentication found, redirecting to IDP...");
-          // User not authenticated - redirect to Cognito
+          console.debug("No authentication found, showing custom login...");
           set({
             user: null,
             isAuthenticated: false,
           });
-
-          // Automatically redirect to Cognito login
-          await signInWithRedirect();
         }
       },
 
