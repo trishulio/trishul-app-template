@@ -1,4 +1,4 @@
-name: {{cookiecutter.project_slug}}-infra
+name: {{cookiecutter.project_slug}}-development
 
 services:
   nginx:

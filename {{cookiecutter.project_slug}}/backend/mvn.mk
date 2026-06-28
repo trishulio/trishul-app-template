@@ -1,13 +1,13 @@
 .PHONY: install compile
 
-MAVEN := docker-compose --env-file mvn.env -f docker-compose-bin.yml run --rm --remove-orphans mvn
+DOCKER_COMPOSE_MAVEN := docker-compose --env-file mvn.env -f docker-compose-bin.yml run --rm --remove-orphans mvn
 THREADS ?= 2C
 
 install:
-	$(MAVEN) mvn clean install -T $(THREADS)
+	$(DOCKER_COMPOSE_MAVEN) mvn clean install -T $(THREADS)
 
 compile:
-	$(MAVEN) mvn compile -q -T $(THREADS)
+	$(DOCKER_COMPOSE_MAVEN) mvn compile -q -T $(THREADS)
 
 dependency_tree:
-	$(MAVEN) mvn dependency:tree
+	$(DOCKER_COMPOSE_MAVEN) mvn dependency:tree
