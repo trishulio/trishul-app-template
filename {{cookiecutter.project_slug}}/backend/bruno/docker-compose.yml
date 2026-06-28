@@ -3,7 +3,6 @@ services:
     build:
       context: ..
       dockerfile: bruno/bruno.dockerfile
-    container_name: bruno
     working_dir: /app
     volumes:
       - ../:/app

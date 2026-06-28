@@ -3,7 +3,6 @@ name: {{cookiecutter.project_slug}}-bin
 services:
   mvn:
     image: maven:3.9.9-eclipse-temurin-21
-    container_name: mvn
     working_dir: ${PWD}
     environment:
       ENABLE_TESTS: "${ENABLE_TESTS}"
@@ -28,7 +27,6 @@ services:
 
   helm:
     image: alpine/helm:3.9.2
-    container_name: helm
     working_dir: ${PWD}
     network_mode: "host" # Hack: This is needed so the helm can access the host's minikube IP
     environment:
@@ -41,7 +39,6 @@ services:
 
   aws:
     image: amazon/aws-cli:2.7.20
-    container_name: aws
     working_dir: /aws
     environment:
       AWS_REGION: ${AWS_REGION}

@@ -3,7 +3,6 @@ name: {{cookiecutter.project_slug}}-backend
 services:
   app:
     image: {{cookiecutter.project_slug}}-backend:${VERSION}
-    container_name: app
     ports:
       - "8080:8080"
     environment:

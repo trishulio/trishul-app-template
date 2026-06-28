@@ -3,7 +3,6 @@ name: {{cookiecutter.project_slug}}-dev
 services:
   app:
     image: maven:3.9.9-eclipse-temurin-21
-    container_name: {{cookiecutter.project_slug}}-backend
     command: ['mvn', 'spring-boot:run']
     working_dir: ${PWD}
     volumes:
