@@ -3,8 +3,7 @@
 DOCKER_COMPOSE_APP := docker-compose --env-file app.env -f docker-compose.yml -f docker-compose-dev.yml
 
 app-run:
-	$(DOCKER_COMPOSE_APP) up -d &&\
-	docker logs -f {{cookiecutter.project_slug}}-backend
+	$(DOCKER_COMPOSE_APP) up
 
 app-down:
 	$(DOCKER_COMPOSE_APP) down
