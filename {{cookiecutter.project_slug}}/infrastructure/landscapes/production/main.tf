@@ -14,6 +14,7 @@ module "landscape_production" {
   aws_account                 = "471112695637"
   aws_region                  = "ca-central-1"
   env_name                    = "production"
+  app_name                    = "{{cookiecutter.project_slug}}"
   app_urls                    = ["https://{{cookiecutter.fqdn}}/"]
   app_logout_urls             = ["https://{{cookiecutter.fqdn}}/logout/"]
   registry_mutability         = "IMMUTABLE"

@@ -14,6 +14,7 @@ module "landscape_staging" {
   aws_account                 = "992382473777"
   aws_region                  = "ca-central-1"
   env_name                    = "staging"
+  app_name                    = "{{cookiecutter.project_slug}}"
   app_urls                    = ["https://staging.{{cookiecutter.fqdn}}/", "https://localhost/"]
   app_logout_urls             = ["https://staging.{{cookiecutter.fqdn}}/logout/", "https://localhost/logout/"]
   registry_mutability         = "MUTABLE"

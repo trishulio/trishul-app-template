@@ -14,6 +14,7 @@ module "landscape_sandbox" {
   aws_account                 = "533267417788"
   aws_region                  = "ca-central-1"
   env_name                    = "sandbox"
+  app_name                    = "{{cookiecutter.project_slug}}"
   app_urls                    = ["https://sandbox.{{cookiecutter.fqdn}}/", "https://localhost/"]
   app_logout_urls             = ["https://sandbox.{{cookiecutter.fqdn}}/logout/", "https://localhost/logout/"]
   registry_mutability         = "MUTABLE"
