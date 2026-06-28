@@ -79,7 +79,6 @@ dependency-check-data/
 *.tfplan
 *.tfplan.*
 .terraform/
-.terraform.lock.hcl
 terraform.tfvars
 override.tf
 override.tf.json
