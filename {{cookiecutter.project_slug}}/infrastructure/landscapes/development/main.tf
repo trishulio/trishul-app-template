@@ -7,7 +7,7 @@ module "landscape_development" {
   aws_region                = "ca-central-1"
   app_urls                  = ["https://localhost/"]
   k8_cluster                = var.k8_cluster
-  platform_tfstate_bucket   = "saasforge-tfstate"
+  platform_tfstate_bucket   = "trishul-tfstate"
   platform_tfstate_key      = "apps/{{cookiecutter.project_slug}}/terraform.engineering.tfstate"
   platform_tfstate_region   = "ca-central-1"
   platform_tfstate_profile  = "engineering"

@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket   = "saasforge-tfstate"
+    bucket   = "trishul-tfstate"
     key      = "apps/{{cookiecutter.project_slug}}/terraform.engineering.tfstate"
     region   = "ca-central-1"
     profile  = "engineering"
