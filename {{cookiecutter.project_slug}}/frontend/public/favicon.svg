@@ -9,14 +9,14 @@
       <stop offset="100%" stop-color="#059669"></stop>
     </linearGradient>
   </defs>
-  
+
   <!-- Background circle -->
   <circle cx="8" cy="8" r="7" fill="url(#trishulGradient1)" stroke="#1E40AF" stroke-width="1"/>
-  
+
   <!-- Medical cross -->
   <rect x="7" y="4" width="2" height="8" rx="1" fill="white"/>
   <rect x="4" y="7" width="8" height="2" rx="1" fill="white"/>
-  
+
   <!-- AI/Technology accent -->
   <circle cx="11.5" cy="4.5" r="1.5" fill="url(#trishulGradient2)"/>
   <circle cx="12" cy="4" r="0.5" fill="white" opacity="0.8"/>
