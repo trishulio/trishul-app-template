@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
+import { signOut, getCurrentUser } from "aws-amplify/auth";
 import type { UserDto } from "@/lib/api/model";
-import { initTenantFromSession, clearTenantId } from "@/lib/tenantStorage";
+import { initTenantFromSession, clearTenantId } from "@/lib/auth/tenantStorage";
 
 interface AuthState {
   // State

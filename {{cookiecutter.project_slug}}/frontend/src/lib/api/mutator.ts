@@ -4,7 +4,7 @@ import Axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 import { fetchAuthSession } from "aws-amplify/auth";
-import { getTenantId } from "@/lib/tenantStorage";
+import { getTenantId } from "@/lib/auth/tenantStorage";
 
 const headers: Record<string, string> = {
   "Content-Type": "application/json",
