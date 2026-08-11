@@ -1,9 +1,9 @@
 .PHONY: deploy undeploy
 
-APP_NAME:={{ cookiecutter.project_slug }}-service
+APP_NAME:={{ cookiecutter.project_slug }}
 VERSION:=1.0.20-SNAPSHOT
 VALUES_FILE:=values-$(ENV_NAME).yml
-APP_NAME_PREFIX:=$(shell awk '/^app:/ {flag=1; next} /^[^ ]/ {flag=0} flag && /^  name:/ {print $$2}' chart/values.yaml | sed 's/-service//')
+APP_NAME_PREFIX:=$(shell awk '/^app:/ {flag=1; next} /^[^ ]/ {flag=0} flag && /^  name:/ {print $$2}' chart/values.yaml)
 ENV_NAME:=$(shell awk '/^env:/ {print $$2}' chart/$(VALUES_FILE))
 NAMESPACE:=$(APP_NAME_PREFIX)-$(ENV_NAME)
 
