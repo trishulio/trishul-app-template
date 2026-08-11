@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>{{ cookiecutter.project_slug }}.{{ cookiecutter.tld }}</groupId>
-    <artifactId>{{ cookiecutter.project_slug }}-service</artifactId>
+    <artifactId>{{ cookiecutter.project_slug }}</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>{{ cookiecutter.project_slug }}-service</name>
+    <name>{{ cookiecutter.project_slug }}</name>
     <description>{{ cookiecutter.description }}</description>
     <parent>
         <groupId>io.trishul</groupId>
@@ -16,7 +16,7 @@
     </parent>
 
     <properties>
-        <jib.base.image>eclipse-temurin:23-jre</jib.base.image>
+        <jib.base.image>eclipse-temurin:23-jre-alpine</jib.base.image>
         <image>${project.groupId}/${project.artifactId}</image>
     </properties>
 
@@ -31,10 +31,20 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.4.4</version>
                 <configuration>
+                    <containerizingMode>packaged</containerizingMode>
                     <from>
                         <image>${jib.base.image}</image>
                     </from>
@@ -42,10 +52,17 @@
                         <image>${image}</image>
                     </to>
                     <container>
+                        <user>1000</user>
                         <mainClass>com.{{ cookiecutter.project_slug }}.Application</mainClass>
                         <ports>
                             <port>8080</port>
                         </ports>
+                        <jvmFlags>
+                            <jvmFlag>-XX:+UseG1GC</jvmFlag>
+                            <jvmFlag>-XX:MaxRAMPercentage=75.0</jvmFlag>
+                            <jvmFlag>-XX:MinRAMPercentage=50.0</jvmFlag>
+                            <jvmFlag>-XX:+HeapDumpOnOutOfMemoryError</jvmFlag>
+                        </jvmFlags>
                     </container>
                 </configuration>
             </plugin>
