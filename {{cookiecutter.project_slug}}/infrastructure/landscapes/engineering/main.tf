@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket   = "trishul-tfstate"
-    key      = "apps/{{cookiecutter.project_slug}}/terraform.engineering.tfstate"
+    key      = "apps/{{ cookiecutter.project_slug }}/terraform.engineering.tfstate"
     region   = "ca-central-1"
     profile  = "engineering"
     role_arn = "arn:aws:iam::211125344508:role/ResourceManager"
@@ -14,7 +14,7 @@ module "landscape_engineering" {
   aws_account     = "211125533390"
   aws_region      = "ca-central-1"
   env_name        = "engineering"
-  app_name        = "{{cookiecutter.project_slug}}"
+  app_name        = "{{ cookiecutter.project_slug }}"
   app_urls        = ["https://localhost/"]
   app_logout_urls = ["https://localhost/logout/"]
 }
