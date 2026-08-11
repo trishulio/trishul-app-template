@@ -2,7 +2,7 @@ env: production
 replicaCount: 1
 
 image:
-  repository: 471112695637.dkr.ecr.ca-central-1.amazonaws.com
+  repository: 081212343238.dkr.ecr.ca-central-1.amazonaws.com
   pullPolicy: Always
 
 imagePullSecrets:
@@ -10,22 +10,25 @@ imagePullSecrets:
 
 resources:
   limits:
-    cpu: 500m
+    cpu: 2000m
     memory: 2G
   requests:
-    cpu: 250m
-    memory: 1.5G
+    cpu: 1000m
+    memory: 2G
 
 app:
-  command: {}
+  javaToolOptions: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+  command:
     #entrypoint: <Unused parameter>
+    args: []
   networking:
     ingress:
-      host: "{{cookiecutter.subdomain}}.{{cookiecutter.domain}}.{{cookiecutter.tld}}"
+      host: "api.{{ cookiecutter.subdomain }}.{{ cookiecutter.domain }}.{{ cookiecutter.tld }}"
       tls: true
       certManager: true
     port:
       http: "8080"
     httpService:
-      type: ClusterIP
+      type: NodePort
       port: "8080"
+      nodePort: "31000"

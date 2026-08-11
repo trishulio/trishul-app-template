@@ -16,12 +16,13 @@ resources:
     memory: 1.5G
 
 app:
+  javaToolOptions: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
   command:
     #entrypoint: <Unused parameter>
-    args: ["\"-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:8000\",-jar,app.jar"]
+    args: []
   networking:
     ingress:
-      host: "{{cookiecutter.domain}}.local"
+      host: "api.{{ cookiecutter.subdomain }}.{{ cookiecutter.domain }}.local"
       tls: false
       certManager: false
     port:

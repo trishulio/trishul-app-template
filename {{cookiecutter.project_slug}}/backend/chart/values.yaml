@@ -1,17 +1,36 @@
 app:
-  name: backend
+  name: {{ cookiecutter.project_slug }}-service
   labels:
-    app: backend
+    app: {{ cookiecutter.project_slug }}-service
+  javaToolOptions: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
   endpoints:
-    liveness: /actuator/health
-    readiness: /actuator/health
+    startup: /actuator/health
+    liveness: /actuator/health/liveness
+    readiness: /actuator/health/readiness
   health:
     probes:
-      liveness:
+      startup:
         endpoint: /actuator/health
+        initialDelaySeconds: 0
+        periodSeconds: 5
+        failureThreshold: 30
+      liveness:
+        endpoint: /actuator/health/liveness
         initialDelaySeconds: 120
         periodSeconds: 5
       readiness:
-        endpoint: /actuator/health
+        endpoint: /actuator/health/readiness
         initialDelaySeconds: 120
         periodSeconds: 5
+
+env: dev
+
+trishul:
+  tenantMigrationOnStartupEnabled: "true"
+  adminTenantName: {{ cookiecutter.project_slug }}_admin
+  adminDsSchemaPrefix: {{ cookiecutter.project_slug }}_admin_
+  tenantDsSchemaPrefix: {{ cookiecutter.project_slug }}_
+
+twilio:
+  accountSid: dummy
+  authToken: dummy

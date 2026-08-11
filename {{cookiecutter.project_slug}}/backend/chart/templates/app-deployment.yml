@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: {{ cookiecutter.project_slug }}-service
+  annotations:
+    reloader.stakater.com/auto: "true"
   labels:
     {{ toYaml .Values.app.labels }}
 spec:
@@ -28,7 +30,7 @@ spec:
               path: init-admin-db-user.sh
       initContainers:
         - name: setup-tenant-admin-dbuser
-          image: bitnami/postgresql:12.11.0
+          image: bitnamilegacy/postgresql:15.1.0-debian-11-r7
           command: [ "/bin/bash", "-c", "/init-db/init-admin-db-user.sh" ]
           volumeMounts:
             - name: init-admin-db-user-script
@@ -80,6 +82,13 @@ spec:
           {{ if .Values.app.command.args }}
           args: {{ .Values.app.command.args }}
           {{ end }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.app.health.probes.startup.endpoint }}
+              port: http
+            initialDelaySeconds: {{ .Values.app.health.probes.startup.initialDelaySeconds }}
+            periodSeconds: {{ .Values.app.health.probes.startup.periodSeconds }}
+            failureThreshold: {{ .Values.app.health.probes.startup.failureThreshold }}
           resources:
             requests:
               memory: {{ .Values.resources.requests.memory }}
@@ -109,6 +118,20 @@ spec:
             initialDelaySeconds: {{ .Values.app.health.probes.readiness.initialDelaySeconds }}
             periodSeconds: {{ .Values.app.health.probes.readiness.periodSeconds }}
           env:
+            - name: JAVA_TOOL_OPTIONS
+              value: {{ .Values.app.javaToolOptions | quote }}
+            - name: APP_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: service-db
+                  key: databaseUsername
+                  optional: false
+            - name: APP_ADMIN_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: service-db
+                  key: databasePassword
+                  optional: false
             - name: APP_HOST_URLS
               valueFrom:
                 configMapKeyRef:
@@ -121,12 +144,16 @@ spec:
                   name: service-db
                   key: databaseName
                   optional: false
-            - name: SPRING_DATASOURCE_URL
+            - name: DB_BASE_URL
               valueFrom:
                 configMapKeyRef:
                   name: service-db
                   key: databaseHost
                   optional: false
+            - name: SPRING_DATASOURCE_URL
+              value: "$(DB_BASE_URL)?currentSchema={{ cookiecutter.project_slug }}_admin_00000000_0000_0000_0000_000000000000"
+            - name: SPRING_DATASOURCE_DEFAULT_SCHEMA
+              value: "{{ cookiecutter.project_slug }}_admin_00000000_0000_0000_0000_000000000000"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -259,3 +286,37 @@ spec:
                   name: service-mt-provision-cognito
                   key: awsCognitoUserPoolUrl
                   optional: false
+            - name: APP_NAME
+              value: {{ cookiecutter.project_slug }} # TODO Fix later
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.env | quote }}
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: service-redis
+                  key: redisHost
+                  optional: false
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: service-redis
+                  key: redisPort
+                  optional: false
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: service-redis
+                  key: redisPassword
+                  optional: false
+            - name: TRISHUL_TENANT_MIGRATION_ON_STARTUP_ENABLED
+              value: {{ .Values.trishul.tenantMigrationOnStartupEnabled | quote }}
+            - name: ADMIN_TENANT_NAME
+              value: {{ .Values.trishul.adminTenantName | quote }}
+            - name: ADMIN_DS_SCHEMA_PREFIX
+              value: {{ .Values.trishul.adminDsSchemaPrefix | quote }}
+            - name: TENANT_DS_SCHEMA_PREFIX
+              value: {{ .Values.trishul.tenantDsSchemaPrefix | quote }}
+            - name: TWILIO_ACCOUNT_SID
+              value: {{ .Values.twilio.accountSid | quote }}
+            - name: TWILIO_AUTH_TOKEN
+              value: {{ .Values.twilio.authToken | quote }}
