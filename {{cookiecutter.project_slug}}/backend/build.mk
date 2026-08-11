@@ -1,22 +1,39 @@
-.PHONY: login_repo containerize containerize_local publish
+ifneq (,$(wildcard app.env))
+    include app.env
+    export
+endif
 
-DOCKER_COMPOSE_AWS := docker-compose --env-file aws.env -f docker-compose-bin.yml run --rm --remove-orphans aws
+AWS_ACCOUNT_ID ?= 081212343238
+AWS_REGION ?= ca-central-1
+AWS_PROFILE ?= engineering
+APP_NAME ?= {{ cookiecutter.project_slug }}-service
+REGISTRY ?= $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
+ECR_REPO ?= {{ cookiecutter.project_slug }}-service
+VERSION ?= 1.0.20-SNAPSHOT
+
+.PHONY: login_repo containerize minikube_containerize publish
+
+DOCKER_COMPOSE_AWS := docker-compose -f docker-compose-bin.yml run --rm --remove-orphans -e AWS_PROFILE=$(AWS_PROFILE) -e AWS_REGION=$(AWS_REGION) aws
 
 login_repo:
-	docker login -u AWS -p $$($$(DOCKER_COMPOSE_AWS) --region ${AWS_REGION} ecr get-login-password) ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${APP_NAME}
+	@CREDS=$$( AWS_IGNORE_CONFIGURED_ENDPOINT_URLS=true aws sts assume-role --role-arn arn:aws:iam::$(AWS_ACCOUNT_ID):role/SystemAdministrator --role-session-name ECRLoginSession --profile $(AWS_PROFILE) --region $(AWS_REGION) ); \
+	AWS_ACCESS_KEY_ID=$$(echo "$$CREDS" | jq -r '.Credentials.AccessKeyId') \
+	AWS_SECRET_ACCESS_KEY=$$(echo "$$CREDS" | jq -r '.Credentials.SecretAccessKey') \
+	AWS_SESSION_TOKEN=$$(echo "$$CREDS" | jq -r '.Credentials.SessionToken') \
+	AWS_IGNORE_CONFIGURED_ENDPOINT_URLS=true \
+	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(REGISTRY)
 
 containerize:
-	docker build . -t ${APP_NAME}:${VERSION}
+	$(DOCKER_COMPOSE_MAVEN) mvn -DskipTests -Dimage=$(REGISTRY)/$(ECR_REPO):$(VERSION) jib:build
 
-containerize_local:
-	minikube image build -t ${APP_NAME}:${VERSION} .
+minikube_containerize:
+	minikube image build -t $(APP_NAME):$(VERSION) .
 
-publish:
-	docker push ${REGISTRY}/${APP_NAME}:${VERSION}
+publish: login_repo
+	docker push $(REGISTRY)/$(ECR_REPO):$(VERSION)
 
-## Helpers - Need to execute manually
 set_credentials:
-	CREDS_JSON=$$($$(DOCKER_COMPOSE_AWS) sts assume-role --role-arn arn:aws:iam::${AWS_ACCOUNT_ID}:role/SystemAdministrator --role-session-name AWSCliSession);\
-	export AWS_ACCESS_KEY_ID=$(echo $CREDS_JSON | jq -r '.Credentials''.AccessKeyId');\
-	export AWS_SECRET_ACCESS_KEY=$(echo $CREDS_JSON | jq -r '.Credentials''.SecretAccessKey');\
-	export AWS_SESSION_TOKEN=$(echo $CREDS_JSON | jq -r '.Credentials''.SessionToken');
+	@CREDS_JSON=$$( AWS_PROFILE=$(AWS_PROFILE) aws sts assume-role --role-arn arn:aws:iam::$(AWS_ACCOUNT_ID):role/SystemAdministrator --role-session-name AWSCliSession ); \
+	echo "export AWS_ACCESS_KEY_ID=$$(echo $$CREDS_JSON | jq -r '.Credentials.AccessKeyId')"; \
+	echo "export AWS_SECRET_ACCESS_KEY=$$(echo $$CREDS_JSON | jq -r '.Credentials.SecretAccessKey')"; \
+	echo "export AWS_SESSION_TOKEN=$$(echo $$CREDS_JSON | jq -r '.Credentials.SessionToken')"

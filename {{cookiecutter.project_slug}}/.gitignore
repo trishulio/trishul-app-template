@@ -98,3 +98,6 @@ ehthumbs.db
 
 bruno-collection/
 bruno.env
+
+# CocoIndex Code (ccc)
+/.cocoindex_code/
