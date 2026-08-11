@@ -1,9 +1,9 @@
-name: {{ cookiecutter.project_slug }}-service
+name: {{ cookiecutter.project_slug }}
 
 services:
   app:
-    image: {{ cookiecutter.project_slug }}-service:${VERSION}
-    container_name: {{ cookiecutter.project_slug }}-service
+    image: {{ cookiecutter.project_slug }}:${VERSION}
+    container_name: {{ cookiecutter.project_slug }}
     ports:
       - "8080:8080"
     environment:
