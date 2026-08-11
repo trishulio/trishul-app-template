@@ -1,7 +1,7 @@
 app:
-  name: {{ cookiecutter.project_slug }}-service
+  name: {{ cookiecutter.project_slug }}
   labels:
-    app: {{ cookiecutter.project_slug }}-service
+    app: {{ cookiecutter.project_slug }}
   javaToolOptions: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
   endpoints:
     startup: /actuator/health

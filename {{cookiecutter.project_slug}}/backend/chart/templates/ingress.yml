@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ cookiecutter.project_slug }}-service
+  name: {{ .Values.app.name }}
   annotations:
     {{- if .Values.app.networking.ingress.certManager }}
     cert-manager.io/cluster-issuer: {{ .Values.app.networking.ingress.clusterIssuer | default "cert-manager" }}

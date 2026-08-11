@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ cookiecutter.project_slug }}-service
+  name: {{ .Values.app.name }}
   annotations:
     reloader.stakater.com/auto: "true"
   labels:
