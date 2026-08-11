@@ -1,4 +1,4 @@
-{% raw %}
+
 const fs = require('fs');
 const path = require('path');
 
@@ -6,7 +6,6 @@ const openapiSampler = require('openapi-sampler');
 
 const openapiPath = path.join(__dirname, '../../api/openapi.json');
 const collectionPath = path.join(__dirname, '../../bruno-collection');
-const envPath = path.join(collectionPath, 'environments/Local.bru');
 
 if (!fs.existsSync(openapiPath)) {
   console.error('OpenAPI spec not found at', openapiPath);
@@ -112,28 +111,83 @@ for (const dir of dirs) {
   }
 }
 
-// 4. Create Environment file
-const envContent = `vars {
-  cognito_client_secret: ${process.env.COGNITO_CLIENT_SECRET || ''}
-  cognito_client_id: ${process.env.COGNITO_CLIENT_ID || ''}
-  cognito_url: ${process.env.COGNITO_URL || ''}
-  cognito_redirect_url: ${process.env.COGNITO_REDIRECT_URL || ''}
-  url: ${process.env.URL || ''}
-  active_tenant_id: ${process.env.ACTIVE_TENANT_ID || ''}
-  tenant_id: ${process.env.TENANT_ID || ''}
+// 4. Create Environment files
+function parseEnvFile(filePath) {
+  const content = fs.readFileSync(filePath, 'utf8');
+  const env = {};
+  const lines = content.split('\n');
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) {
+      continue;
+    }
+    const match = trimmed.match(/^([^=]+)=(.*)$/);
+    if (match) {
+      const key = match[1].trim();
+      let val = match[2].trim();
+      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+        val = val.slice(1, -1);
+      }
+      env[key] = val;
+    }
+  }
+  return env;
+}
+
+function getEnvName(filename) {
+  if (filename === 'bruno.env' || filename === '.env' || filename === 'app.env') {
+    return 'Local';
+  }
+  let suffix = filename;
+  if (filename.startsWith('bruno.env.')) {
+    suffix = filename.replace('bruno.env.', '');
+  } else if (filename.startsWith('.env.')) {
+    suffix = filename.replace('.env.', '');
+  } else if (filename.startsWith('app.env.')) {
+    suffix = filename.replace('app.env.', '');
+  }
+  return suffix.charAt(0).toUpperCase() + suffix.slice(1);
+}
+
+const backendDir = path.join(__dirname, '../..');
+const files = fs.readdirSync(backendDir);
+const envFiles = files.filter(f => {
+  const fullPath = path.join(backendDir, f);
+  if (!fs.statSync(fullPath).isFile()) return false;
+  if (f.endsWith('.example') || f.includes('package') || f === '.envrc') return false;
+  return f.startsWith('bruno.env') || f.startsWith('.env') || f.startsWith('app.env');
+});
+
+const envDir = path.join(collectionPath, 'environments');
+if (!fs.existsSync(envDir)) {
+  fs.mkdirSync(envDir, { recursive: true });
+}
+
+for (const file of envFiles) {
+  const envName = getEnvName(file);
+  const filePath = path.join(backendDir, file);
+  const envVars = parseEnvFile(filePath);
+  
+  const envContent = `vars {
+  cognito_client_secret: ${envVars.COGNITO_CLIENT_SECRET || ''}
+  cognito_client_id: ${envVars.COGNITO_CLIENT_ID || ''}
+  cognito_url: ${envVars.COGNITO_URL || ''}
+  cognito_redirect_url: ${envVars.COGNITO_REDIRECT_URL || ''}
+  url: ${envVars.URL || envVars.APP_URL || ''}
+  active_tenant_id: ${envVars.ACTIVE_TENANT_ID || ''}
+  tenant_id: ${envVars.TENANT_ID || ''}
 }
 `;
-
-if (!fs.existsSync(path.dirname(envPath))) {
-  fs.mkdirSync(path.dirname(envPath), { recursive: true });
+  const outPath = path.join(envDir, `${envName}.bru`);
+  fs.writeFileSync(outPath, envContent);
+  console.log(`Created environment file for ${envName} (${file}) at ${outPath}`);
 }
-fs.writeFileSync(envPath, envContent);
 
 // 5. Update collection.bru for OAuth2
 const collectionBruPath = path.join(collectionPath, 'collection.bru');
 if (fs.existsSync(collectionBruPath)) {
   const collectionBruContent = `meta {
-  name: {% endraw %}{{cookiecutter.project_name}}{% raw %} API
+  name: Wezeon API
 }
 
 headers {
@@ -165,4 +219,3 @@ auth:oauth2 {
 }
 
 console.log('Post-processing complete. baseUrl replaced with url, dummy payloads generated, and Local environment created.');
-{% endraw %}

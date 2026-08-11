@@ -1,4 +1,4 @@
-name: {{cookiecutter.project_slug}}-development
+name: {{ cookiecutter.project_slug }}-development
 
 services:
   nginx:

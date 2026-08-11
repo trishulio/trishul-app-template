@@ -4,14 +4,11 @@ services:
       context: ..
       dockerfile: bruno/bruno.dockerfile
     working_dir: /app
+    environment:
+      NODE_PATH: /usr/local/lib/node_modules:/app/bruno/node_modules
     volumes:
       - ../:/app
+      - /app/bruno/node_modules
       - ${HOME}/.bru:/root/.bru
-    environment:
-      COGNITO_CLIENT_SECRET: ${COGNITO_CLIENT_SECRET}
-      COGNITO_CLIENT_ID: ${COGNITO_CLIENT_ID}
-      COGNITO_URL: ${COGNITO_URL}
-      COGNITO_REDIRECT_URL: ${COGNITO_REDIRECT_URL}
-      URL: ${URL}
-      ACTIVE_TENANT_ID: ${ACTIVE_TENANT_ID}
-      TENANT_ID: ${TENANT_ID}
+
+
