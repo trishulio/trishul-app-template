@@ -1,8 +1,8 @@
-name: {{cookiecutter.project_slug}}-bin
+name: {{ cookiecutter.project_slug }}-bin
 
 services:
   mvn:
-    image: maven:3.9.9-eclipse-temurin-21
+    image: maven:3.9.9-eclipse-temurin-23
     working_dir: ${PWD}
     environment:
       ENABLE_TESTS: "${ENABLE_TESTS}"
@@ -21,6 +21,12 @@ services:
       SONARQUBE_PROJECT_KEY: "${SONARQUBE_PROJECT_KEY}"
       NVD_API_KEY: "${NVD_API_KEY}"
       ENABLE_OPENAPI_SPEC_GENERATION: "${ENABLE_OPENAPI_SPEC_GENERATION}"
+      AWS_REGION: "${AWS_REGION}"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_COGNITO_URL: "${AWS_COGNITO_URL}"
+      AWS_COGNITO_USER_POOL_URL: "${AWS_COGNITO_USER_POOL_URL}"
+      AWS_SECRETS_MANAGER_URL: "${AWS_SECRETS_MANAGER_URL}"
     volumes:
       - ${PWD}:${PWD}
       - ${HOME}/.m2/:/root/.m2
@@ -45,3 +51,6 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
+      AWS_PROFILE: ${AWS_PROFILE}
+    volumes:
+      - ${HOME}/.aws:/root/.aws

@@ -3,17 +3,22 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>{{cookiecutter.domain}}.{{cookiecutter.tld}}</groupId>
-    <artifactId>{{cookiecutter.project_slug}}</artifactId>
+    <groupId>{{ cookiecutter.project_slug }}.{{ cookiecutter.tld }}</groupId>
+    <artifactId>{{ cookiecutter.project_slug }}-service</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>{{cookiecutter.project_name}}</name>
-    <description>{{cookiecutter.description}}</description>
+    <name>{{ cookiecutter.project_slug }}-service</name>
+    <description>{{ cookiecutter.description }}</description>
     <parent>
         <groupId>io.trishul</groupId>
         <artifactId>trishul-app-parent</artifactId>
         <version>1.0.0</version>
     </parent>
+
+    <properties>
+        <jib.base.image>eclipse-temurin:23-jre</jib.base.image>
+        <image>${project.groupId}/${project.artifactId}</image>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -22,4 +27,28 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.4</version>
+                <configuration>
+                    <from>
+                        <image>${jib.base.image}</image>
+                    </from>
+                    <to>
+                        <image>${image}</image>
+                    </to>
+                    <container>
+                        <mainClass>com.{{ cookiecutter.project_slug }}.Application</mainClass>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                    </container>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
