@@ -1,9 +1,23 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, focusManager } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import "./index.css";
 import { Toaster } from "sonner";
+
+focusManager.setEventListener((handleFocus) => {
+  if (typeof window !== "undefined" && window.addEventListener) {
+    window.addEventListener("visibilitychange", () => {
+      handleFocus(document.visibilityState === "visible");
+    }, false);
+
+    window.addEventListener("focus", () => handleFocus(true), false);
+    return () => {
+      window.removeEventListener("visibilitychange", () => handleFocus(true));
+      window.removeEventListener("focus", () => handleFocus(true));
+    };
+  }
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,7 +43,7 @@ function App() {
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          storageKey="{{cookiecutter.project_slug}}-ui-theme"
+          storageKey="{{ cookiecutter.project_slug }}-ui-theme"
         >
           <Router>
             <AppContent />

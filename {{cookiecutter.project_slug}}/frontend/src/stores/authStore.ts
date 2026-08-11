@@ -77,7 +77,7 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: "{{cookiecutter.project_slug}}-auth",
+      name: "{{ cookiecutter.project_slug }}-auth",
       storage:
         typeof window !== "undefined"
           ? {

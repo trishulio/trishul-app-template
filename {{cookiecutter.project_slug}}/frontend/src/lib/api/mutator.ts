@@ -10,7 +10,13 @@ const headers: Record<string, string> = {
   "Content-Type": "application/json",
 };
 
-export const AXIOS_INSTANCE = Axios.create({ headers });
+export const AXIOS_INSTANCE = Axios.create({
+  baseURL: process.env.VITE_BACKEND_URL || "",
+  headers,
+  paramsSerializer: {
+    indexes: null,
+  },
+});
 
 // add a request interceptor
 AXIOS_INSTANCE.interceptors.request.use(
@@ -33,9 +39,15 @@ AXIOS_INSTANCE.interceptors.request.use(
 
       // Attach the active tenant ID from storage (set at login from Cognito groups).
       // Temporary approach until the tenant-selection UI is implemented.
-      const tenantId = getTenantId();
-      if (tenantId) {
-        config.headers["X-TENANT-ID"] = tenantId;
+      const isOpsPortal =
+        typeof window !== "undefined" &&
+        window.location.hostname.startsWith("ops.");
+
+      if (!isOpsPortal) {
+        const tenantId = getTenantId();
+        if (tenantId) {
+          config.headers["X-TENANT-ID"] = tenantId;
+        }
       }
     } catch (error) {
       // If not authenticated, proceed without tokens
