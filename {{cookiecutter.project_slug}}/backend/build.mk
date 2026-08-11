@@ -6,9 +6,9 @@ endif
 AWS_ACCOUNT_ID ?= 081212343238
 AWS_REGION ?= ca-central-1
 AWS_PROFILE ?= engineering
-APP_NAME ?= {{ cookiecutter.project_slug }}-service
+APP_NAME ?= {{ cookiecutter.project_slug }}
 REGISTRY ?= $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
-ECR_REPO ?= {{ cookiecutter.project_slug }}-service
+ECR_REPO ?= {{ cookiecutter.project_slug }}
 VERSION ?= 1.0.20-SNAPSHOT
 
 .PHONY: login_repo containerize minikube_containerize publish
@@ -27,7 +27,11 @@ containerize:
 	$(DOCKER_COMPOSE_MAVEN) mvn -DskipTests -Dimage=$(REGISTRY)/$(ECR_REPO):$(VERSION) jib:build
 
 minikube_containerize:
-	minikube image build -t $(APP_NAME):$(VERSION) .
+	eval $$(minikube -p minikube docker-env) && ./mvnw -DskipTests compile jib:dockerBuild -Dimage=$(APP_NAME):$(VERSION)
+
+local_containerize:
+	docker system prune -f
+	./mvnw -DskipTests compile jib:dockerBuild -Dimage=$(APP_NAME):$(VERSION)
 
 publish: login_repo
 	docker push $(REGISTRY)/$(ECR_REPO):$(VERSION)
