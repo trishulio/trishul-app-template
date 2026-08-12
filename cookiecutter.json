@@ -1,7 +1,7 @@
 {
     "project_name": "Trishul App",
     "description": "Trishul app using trishul library modules",
-    "url": "https://app.trishul.io",
+    "url": "https://app.trishul.sh",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
     "fqdn": "{{ cookiecutter.url.split('://')[1] }}",
     "tld": "{{ cookiecutter.fqdn.split('.')[-1] }}",
