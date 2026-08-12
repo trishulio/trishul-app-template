@@ -68,6 +68,7 @@
     "react-doctor": "^0.0.47",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "terser": "^5.39.0"
   }
 }
