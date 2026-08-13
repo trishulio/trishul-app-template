@@ -10,7 +10,7 @@
     <name>{{ cookiecutter.project_slug }}</name>
     <description>{{ cookiecutter.description }}</description>
     <parent>
-        <groupId>io.trishul</groupId>
+        <groupId>sh.trishul</groupId>
         <artifactId>trishul-app-parent</artifactId>
         <version>1.0.0</version>
     </parent>

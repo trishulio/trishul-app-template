@@ -71,4 +71,3 @@ This will show you the available updates and let you apply them interactively. T
 ---
 
 Additional template usage notes may live in the `{{cookiecutter.project_slug}}/README.md` files generated per project.
-

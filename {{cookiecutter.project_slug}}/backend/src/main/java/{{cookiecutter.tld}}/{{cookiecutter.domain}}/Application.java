@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import io.trishul.tenant.persistence.config.PackageScanConfig;
+import sh.trishul.tenant.persistence.config.PackageScanConfig;
 
-@SpringBootApplication(scanBasePackages = { "{{cookiecutter.tld}}.{{cookiecutter.domain}}", "io.trishul" })
-@EnableJpaRepositories(basePackages = { "{{cookiecutter.tld}}.{{cookiecutter.domain}}", "io.trishul" })
+@SpringBootApplication(scanBasePackages = { "{{cookiecutter.tld}}.{{cookiecutter.domain}}", "sh.trishul" })
+@EnableJpaRepositories(basePackages = { "{{cookiecutter.tld}}.{{cookiecutter.domain}}", "sh.trishul" })
 @EnableTransactionManagement
 public class Application {
   public static void main(String[] args) {
