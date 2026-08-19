@@ -1,0 +1,33 @@
+env: cloudville
+replicaCount: 1
+
+image:
+  repository: 992382473777.dkr.ecr.ca-central-1.amazonaws.com
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: regcred
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2G
+  requests:
+    cpu: 1000m
+    memory: 1.5G
+
+app:
+  javaToolOptions: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+  command:
+    #entrypoint: <Unused parameter>
+    args: []
+  networking:
+    ingress:
+      host: "api.{{ cookiecutter.domain }}.{{ cookiecutter.tld }}"
+      tls: true
+      certManager: true
+    port:
+      http: "8080"
+    httpService:
+      type: ClusterIP
+      port: "8080"

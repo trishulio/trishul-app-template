@@ -1,206 +1,200 @@
 const fs = require('fs');
 const path = require('path');
-const dotenv = require('dotenv');
 
-// --- Helper Functions ---
+const openapiSampler = require('openapi-sampler');
 
-/**
- * Parses all .env files in a given directory (e.g. backend dir) 
- * and merges them into a single object. 
- */
-function parseEnvFiles(envDir) {
-  const envFiles = [
-    'app.env',
-    'app-auth.env', 
-    'app-db.env',
-    'app-mt-provision.env',
-    'app-secrets-manager.env'
-  ];
+const openapiPath = path.join(__dirname, '../../api/openapi.json');
+const collectionPath = path.join(__dirname, '../../bruno-collection');
 
-  const mergedEnv = {};
+if (!fs.existsSync(openapiPath)) {
+  console.error('OpenAPI spec not found at', openapiPath);
+  process.exit(1);
+}
 
-  for (const file of envFiles) {
-    const fullPath = path.join(envDir, file);
-    if (fs.existsSync(fullPath)) {
-      console.log(`Parsing ${file}...`);
-      const envConfig = dotenv.parse(fs.readFileSync(fullPath));
-      Object.assign(mergedEnv, envConfig);
-    } else {
-      console.warn(`Warning: ${file} not found in ${envDir}. Skipping.`);
+const openapi = JSON.parse(fs.readFileSync(openapiPath, 'utf8'));
+
+function getFiles(dir, files = []) {
+  const fileList = fs.readdirSync(dir);
+  for (const file of fileList) {
+    const name = path.join(dir, file);
+    if (fs.statSync(name).isDirectory()) {
+      getFiles(name, files);
+    } else if (name.endsWith('.bru')) {
+      files.push(name);
     }
   }
-
-  return mergedEnv;
+  return files;
 }
 
-/**
- * Creates the bruno.json structure.
- */
-function createBrunoJson(projectName) {
-  return {
-    version: "1",
-    name: projectName,
-    type: "collection",
-    ignore: ["node_modules", ".git"]
-  };
-}
+const bruFiles = getFiles(collectionPath);
 
-/**
- * Creates the environments structure using values parsed from .env files.
- */
-function createEnvironments(parsedEnv) {
-  // Grab the needed values, fallback to placeholders if missing
-  const cognitoUrl = parsedEnv.AWS_COGNITO_USER_POOL_URL || "https://cognito-idp.YOUR_REGION.amazonaws.com/YOUR_USER_POOL_ID";
-  const cognitoClientId = parsedEnv.AWS_COGNITO_CLIENT_ID || "YOUR_CLIENT_ID";
-  const cognitoClientSecret = parsedEnv.AWS_COGNITO_CLIENT_SECRET || "YOUR_CLIENT_SECRET";
+for (const bruFile of bruFiles) {
+  let content = fs.readFileSync(bruFile, 'utf8');
 
-  return {
-    "development": {
-      "name": "development",
-      "variables": [
-        {
-          "name": "url",
-          "value": "http://localhost:8080",
-          "enabled": true,
-          "secret": false,
-          "type": "text"
-        },
-        {
-          "name": "cognito_url",
-          "value": cognitoUrl,
-          "enabled": true,
-          "secret": false,
-          "type": "text"
-        },
-        {
-          "name": "cognito_client_id",
-          "value": cognitoClientId,
-          "enabled": true,
-          "secret": false,
-          "type": "text"
-        },
-        {
-          "name": "cognito_client_secret",
-          "value": cognitoClientSecret,
-          "enabled": true,
-          "secret": true,
-          "type": "text"
-        },
-        {
-          "name": "cognito_redirect_url",
-          "value": "http://localhost:8080/swagger-ui/oauth2-redirect.html",
-          "enabled": true,
-          "secret": false,
-          "type": "text"
-        },
-        {
-          "name": "active_tenant_id",
-          "value": "",
-          "enabled": true,
-          "secret": false,
-          "type": "text"
-        }
-      ]
-    }
-  };
-}
-
-/**
- * Writes a JSON object to a file.
- */
-function writeJsonFile(filePath, data) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  console.log(`Created ${path.basename(filePath)}`);
-}
-
-/**
- * Post-processes a .bru file (e.g. changing variables, adding headers).
- */
-function processBruFile(filePath) {
-  let content = fs.readFileSync(filePath, 'utf8');
-
-  {% raw %}
   // 1. Replace {{baseUrl}} with {{url}}
   content = content.replace(/\{\{baseUrl\}\}/g, '{{url}}');
 
-  // 2. Add headers if not already present
-  if (!content.includes('headers {') && content.includes('}')) {
-    content = content.replace('}', `}
+  // 2. Find the operation in OpenAPI to get dummy data
+  const methodMatch = content.match(/^(get|post|put|delete|patch)\s*\{/m);
+  const urlMatch = content.match(/url:\s*(?:\{\{url\}\})?(.*?)\n/);
+
+  if (methodMatch && urlMatch) {
+    const method = methodMatch[1].toLowerCase();
+    const urlPath = urlMatch[1].trim().split('?')[0];
+
+    // Find matching path in openapi
+    const openapiPathKey = Object.keys(openapi.paths).find(pk => {
+      const cleanPk = pk.replace(/\{.*?\}/g, '[^/]+');
+      const regex = new RegExp('^' + cleanPk + '$');
+      return regex.test(urlPath);
+    });
+
+    if (openapiPathKey && openapi.paths[openapiPathKey][method]) {
+      const op = openapi.paths[openapiPathKey][method];
+      if (op.requestBody && op.requestBody.content && op.requestBody.content['application/json']) {
+        const schema = op.requestBody.content['application/json'].schema;
+        const sample = openapiSampler.sample(schema, { skipReadOnly: true }, openapi);
+
+        if (sample) {
+          const sampleStr = JSON.stringify(sample, null, 2);
+          // Replace body:json block
+          const bodyRegex = /body:json\s*\{[\s\S]*?\n\}/;
+          if (content.match(bodyRegex)) {
+            content = content.replace(bodyRegex, `body:json {\n${sampleStr.split('\n').map(l => '  ' + l).join('\n')}\n}`);
+            console.log(`Updated body for ${method.toUpperCase()} ${urlPath}`);
+          }
+        }
+      }
+    }
+  }
+
+  fs.writeFileSync(bruFile, content);
+}
+
+// 3. Rename folders to Camel Case (Title Case with spaces) and drop -controller suffix
+function toCamelCase(str) {
+  return str
+    .replace('-controller', '')
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+const dirs = fs.readdirSync(collectionPath).filter(f => fs.statSync(path.join(collectionPath, f)).isDirectory() && f !== 'environments');
+
+for (const dir of dirs) {
+  const oldPath = path.join(collectionPath, dir);
+  const newName = toCamelCase(dir);
+  const newPath = path.join(collectionPath, newName);
+
+  // Update folder.bru if it exists
+  const folderBruPath = path.join(oldPath, 'folder.bru');
+  if (fs.existsSync(folderBruPath)) {
+    let folderContent = fs.readFileSync(folderBruPath, 'utf8');
+    folderContent = folderContent.replace(/name: .*/, `name: ${newName}`);
+    fs.writeFileSync(folderBruPath, folderContent);
+  }
+
+  if (oldPath !== newPath) {
+    if (fs.existsSync(newPath)) {
+      // If target exists, move files and delete old (handle collisions if any)
+      const files = fs.readdirSync(oldPath);
+      for (const file of files) {
+        fs.renameSync(path.join(oldPath, file), path.join(newPath, file));
+      }
+      fs.rmdirSync(oldPath);
+    } else {
+      fs.renameSync(oldPath, newPath);
+    }
+    console.log(`Renamed folder ${dir} to ${newName}`);
+  }
+}
+
+// 4. Create Environment files
+function parseEnvFile(filePath) {
+  const content = fs.readFileSync(filePath, 'utf8');
+  const env = {};
+  const lines = content.split('\n');
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) {
+      continue;
+    }
+    const match = trimmed.match(/^([^=]+)=(.*)$/);
+    if (match) {
+      const key = match[1].trim();
+      let val = match[2].trim();
+      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+        val = val.slice(1, -1);
+      }
+      env[key] = val;
+    }
+  }
+  return env;
+}
+
+function getEnvName(filename) {
+  if (filename === 'bruno.env' || filename === '.env' || filename === 'app.env') {
+    return 'Local';
+  }
+  let suffix = filename;
+  if (filename.startsWith('bruno.env.')) {
+    suffix = filename.replace('bruno.env.', '');
+  } else if (filename.startsWith('.env.')) {
+    suffix = filename.replace('.env.', '');
+  } else if (filename.startsWith('app.env.')) {
+    suffix = filename.replace('app.env.', '');
+  }
+  return suffix.charAt(0).toUpperCase() + suffix.slice(1);
+}
+
+const backendDir = path.join(__dirname, '../..');
+const files = fs.readdirSync(backendDir);
+const envFiles = files.filter(f => {
+  const fullPath = path.join(backendDir, f);
+  if (!fs.statSync(fullPath).isFile()) return false;
+  if (f.endsWith('.example') || f.includes('package') || f === '.envrc') return false;
+  return f.startsWith('bruno.env') || f.startsWith('.env') || f.startsWith('app.env');
+});
+
+const envDir = path.join(collectionPath, 'environments');
+if (!fs.existsSync(envDir)) {
+  fs.mkdirSync(envDir, { recursive: true });
+}
+
+for (const file of envFiles) {
+  const envName = getEnvName(file);
+  const filePath = path.join(backendDir, file);
+  const envVars = parseEnvFile(filePath);
+
+  const envContent = `vars {
+  cognito_client_secret: ${envVars.COGNITO_CLIENT_SECRET || ''}
+  cognito_client_id: ${envVars.COGNITO_CLIENT_ID || ''}
+  cognito_url: ${envVars.COGNITO_URL || ''}
+  cognito_redirect_url: ${envVars.COGNITO_REDIRECT_URL || ''}
+  url: ${envVars.URL || envVars.APP_URL || ''}
+  active_tenant_id: ${envVars.ACTIVE_TENANT_ID || ''}
+  tenant_id: ${envVars.TENANT_ID || ''}
+}
+`;
+  const outPath = path.join(envDir, `${envName}.bru`);
+  fs.writeFileSync(outPath, envContent);
+  console.log(`Created environment file for ${envName} (${file}) at ${outPath}`);
+}
+
+// 5. Update collection.bru for OAuth2
+const collectionBruPath = path.join(collectionPath, 'collection.bru');
+if (fs.existsSync(collectionBruPath)) {
+  const collectionBruContent = `meta {
+  name: {{cookiecutter.project_name}} API
+}
 
 headers {
   X-Iaas-Token: {{$oauth2.credentials.id_token}}
   X-TENANT-ID: {{active_tenant_id}}
-}`);
-  }
-  {% endraw %}
-
-  fs.writeFileSync(filePath, content);
 }
 
-/**
- * Recursively scans a directory for .bru files and processes them.
- */
-function processDirectory(dir) {
-  const files = fs.readdirSync(dir);
-  for (const file of files) {
-    const fullPath = path.join(dir, file);
-    if (fs.statSync(fullPath).isDirectory()) {
-      processDirectory(fullPath);
-    } else if (file.endsWith('.bru')) {
-      processBruFile(fullPath);
-    }
-  }
-}
-
-// --- Main Script Execution ---
-
-const PROJECT_NAME = "{{ cookiecutter.project_name }} API";
-
-// Paths
-const BACKEND_DIR = path.join(__dirname, '..', '..');
-const BRUNO_COLLECTION_DIR = path.join(BACKEND_DIR, 'bruno-collection');
-const BRUNO_ENV_DIR = path.join(BRUNO_COLLECTION_DIR, 'environments');
-
-// 1. Ensure target directories exist
-if (!fs.existsSync(BRUNO_COLLECTION_DIR)) {
-  fs.mkdirSync(BRUNO_COLLECTION_DIR, { recursive: true });
-}
-if (!fs.existsSync(BRUNO_ENV_DIR)) {
-  fs.mkdirSync(BRUNO_ENV_DIR, { recursive: true });
-}
-
-// 2. Parse .env files from the backend directory
-console.log("Parsing .env files...");
-const parsedEnv = parseEnvFiles(BACKEND_DIR);
-
-// 3. Create bruno.json
-console.log("Creating bruno.json...");
-const brunoJson = createBrunoJson(PROJECT_NAME);
-writeJsonFile(path.join(BRUNO_COLLECTION_DIR, 'bruno.json'), brunoJson);
-
-// 4. Create development.bru in environments
-console.log("Creating development.bru environment...");
-const environments = createEnvironments(parsedEnv);
-const devEnv = environments['development'];
-
-{% raw %}
-const devBruContent = `vars {
-  url: ${devEnv.variables.find(v => v.name === 'url').value}
-  cognito_url: ${devEnv.variables.find(v => v.name === 'cognito_url').value}
-  cognito_client_id: ${devEnv.variables.find(v => v.name === 'cognito_client_id').value}
-  cognito_redirect_url: ${devEnv.variables.find(v => v.name === 'cognito_redirect_url').value}
-  active_tenant_id: ${devEnv.variables.find(v => v.name === 'active_tenant_id').value}
-}
-vars:secret [
-  cognito_client_secret
-]`;
-{% endraw %}
-fs.writeFileSync(path.join(BRUNO_ENV_DIR, 'development.bru'), devBruContent);
-
-// 5. Create collection.bru with OAuth2 config
-console.log("Creating collection.bru...");
-{% raw %}
-const collectionBruContent = `auth {
+auth {
   mode: oauth2
 }
 
@@ -212,14 +206,11 @@ auth:oauth2 {
   client_id: {{cognito_client_id}}
   client_secret: {{cognito_client_secret}}
   scope: email openid phone
-  state: 
+  state:
   pkce: true
 }`;
-{% endraw %}
-fs.writeFileSync(path.join(BRUNO_COLLECTION_DIR, 'collection.bru'), collectionBruContent);
 
-// 6. Process all .bru files
-console.log("Processing .bru files...");
-processDirectory(BRUNO_COLLECTION_DIR);
+  fs.writeFileSync(collectionBruPath, collectionBruContent);
+}
 
-console.log("Bruno post-processing complete!");
+console.log('Bruno post-processing complete!');
