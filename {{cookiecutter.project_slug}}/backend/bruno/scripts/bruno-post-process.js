@@ -165,7 +165,7 @@ if (fs.existsSync(collectionBruPath)) {
   const collectionBruContent = `meta {
   name: {{cookiecutter.project_name}} API
 }
-
+{% raw %}
 headers {
   X-Iaas-Token: {{$oauth2.credentials.id_token}}
   X-TENANT-ID: {{active_tenant_id}}
@@ -185,7 +185,9 @@ auth:oauth2 {
   scope: email openid phone
   state:
   pkce: true
-}`;
+}
+{% endraw %}
+`;
 
   fs.writeFileSync(collectionBruPath, collectionBruContent);
 }
