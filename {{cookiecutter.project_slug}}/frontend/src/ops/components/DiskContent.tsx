@@ -34,7 +34,7 @@ export function DiskContent({
       <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-500 ${barColor}`}
-          style={{ width: `${percentage}%` }}
+          style={% raw %}{{ width: `${percentage}%` }}{% endraw %}
         />
       </div>
       <div className="flex justify-between text-xs text-slate-500 font-medium">

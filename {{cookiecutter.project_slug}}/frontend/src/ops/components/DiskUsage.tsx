@@ -20,7 +20,7 @@ export function DiskUsage({ total, free }: DiskUsageProps) {
       <div className="w-full bg-slate-100 dark:bg-slate-950 h-1.5 rounded-full overflow-hidden">
         <div
           className={`h-full ${pct > 0.85 ? "bg-rose-500" : "bg-emerald-500"}`}
-          style={{ width: `${Math.round(pct * 100)}%` }}
+          style={% raw %}{{ width: `${Math.round(pct * 100)}%` }}{% endraw %}
         />
       </div>
     </div>
