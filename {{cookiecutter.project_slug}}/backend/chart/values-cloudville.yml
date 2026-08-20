@@ -2,7 +2,7 @@ env: cloudville
 replicaCount: 1
 
 image:
-  repository: 992382473777.dkr.ecr.ca-central-1.amazonaws.com
+  repository: 081212343238.dkr.ecr.ca-central-1.amazonaws.com
   pullPolicy: Always
 
 imagePullSecrets:

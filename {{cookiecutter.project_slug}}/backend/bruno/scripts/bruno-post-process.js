@@ -110,7 +110,7 @@ for (const dir of dirs) {
   }
 }
 
-// 4. Create Environment files
+// 4. Create the Environment file from the single fixed backend/bruno.env
 function parseEnvFile(filePath) {
   const content = fs.readFileSync(filePath, 'utf8');
   const env = {};
@@ -133,39 +133,16 @@ function parseEnvFile(filePath) {
   return env;
 }
 
-function getEnvName(filename) {
-  if (filename === 'bruno.env' || filename === '.env' || filename === 'app.env') {
-    return 'Local';
-  }
-  let suffix = filename;
-  if (filename.startsWith('bruno.env.')) {
-    suffix = filename.replace('bruno.env.', '');
-  } else if (filename.startsWith('.env.')) {
-    suffix = filename.replace('.env.', '');
-  } else if (filename.startsWith('app.env.')) {
-    suffix = filename.replace('app.env.', '');
-  }
-  return suffix.charAt(0).toUpperCase() + suffix.slice(1);
-}
-
 const backendDir = path.join(__dirname, '../..');
-const files = fs.readdirSync(backendDir);
-const envFiles = files.filter(f => {
-  const fullPath = path.join(backendDir, f);
-  if (!fs.statSync(fullPath).isFile()) return false;
-  if (f.endsWith('.example') || f.includes('package') || f === '.envrc') return false;
-  return f.startsWith('bruno.env') || f.startsWith('.env') || f.startsWith('app.env');
-});
+const envFilePath = path.join(backendDir, 'bruno.env');
 
 const envDir = path.join(collectionPath, 'environments');
 if (!fs.existsSync(envDir)) {
   fs.mkdirSync(envDir, { recursive: true });
 }
 
-for (const file of envFiles) {
-  const envName = getEnvName(file);
-  const filePath = path.join(backendDir, file);
-  const envVars = parseEnvFile(filePath);
+if (fs.existsSync(envFilePath)) {
+  const envVars = parseEnvFile(envFilePath);
 
   const envContent = `vars {
   cognito_client_secret: ${envVars.COGNITO_CLIENT_SECRET || ''}
@@ -177,9 +154,9 @@ for (const file of envFiles) {
   tenant_id: ${envVars.TENANT_ID || ''}
 }
 `;
-  const outPath = path.join(envDir, `${envName}.bru`);
+  const outPath = path.join(envDir, 'Local.bru');
   fs.writeFileSync(outPath, envContent);
-  console.log(`Created environment file for ${envName} (${file}) at ${outPath}`);
+  console.log(`Created environment file from ${envFilePath} at ${outPath}`);
 }
 
 // 5. Update collection.bru for OAuth2
