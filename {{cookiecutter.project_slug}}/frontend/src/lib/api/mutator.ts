@@ -1,10 +1,5 @@
-import Axios, {
-  type AxiosRequestConfig,
-  type AxiosResponse,
-  type InternalAxiosRequestConfig,
-} from "axios";
-import { fetchAuthSession } from "aws-amplify/auth";
-import { getTenantId } from "@/lib/auth/tenantStorage";
+import Axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
+import { setupInterceptors } from "./interceptors";
 
 const headers: Record<string, string> = {
   "Content-Type": "application/json",
@@ -18,56 +13,7 @@ export const AXIOS_INSTANCE = Axios.create({
   },
 });
 
-// add a request interceptor
-AXIOS_INSTANCE.interceptors.request.use(
-  async (config: InternalAxiosRequestConfig) => {
-    try {
-      // Get the current auth session and add tokens to requests
-      const session = await fetchAuthSession();
-      const accessToken = session.tokens?.accessToken?.toString();
-      const idToken = session.tokens?.idToken?.toString();
-
-      // Send access token as Bearer token in Authorization header
-      if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
-      }
-
-      // Send ID token as X-Iaas-Token header
-      if (idToken) {
-        config.headers["X-Iaas-Token"] = idToken;
-      }
-
-      // Attach the active tenant ID from storage (set at login from Cognito groups).
-      // Temporary approach until the tenant-selection UI is implemented.
-      const isOpsPortal =
-        typeof window !== "undefined" &&
-        window.location.hostname.startsWith("ops.");
-
-      if (!isOpsPortal) {
-        const tenantId = getTenantId();
-        if (tenantId) {
-          config.headers["X-TENANT-ID"] = tenantId;
-        }
-      }
-    } catch (error) {
-      // If not authenticated, proceed without tokens
-      console.warn("No auth session available:", error);
-    }
-
-    return config;
-  },
-);
-
-// add a response interceptor
-AXIOS_INSTANCE.interceptors.response.use(
-  (response: AxiosResponse) => {
-    return response;
-  },
-  (error: unknown) => {
-    console.error("API Error:", error);
-    return Promise.reject(error);
-  },
-);
+setupInterceptors(AXIOS_INSTANCE);
 
 export const apiClient = <T>(
   config: AxiosRequestConfig,
@@ -80,8 +26,7 @@ export const apiClient = <T>(
     cancelToken: source.token,
   }).then(({ data }: AxiosResponse<T>) => data);
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+  // @ts-expect-error injected cancel support
   promise.cancel = () => {
     source.cancel("Query was cancelled");
   };
