@@ -30,9 +30,10 @@ const bruFiles = getFiles(collectionPath);
 
 for (const bruFile of bruFiles) {
   let content = fs.readFileSync(bruFile, 'utf8');
-
+{% raw %}
   // 1. Replace {{baseUrl}} with {{url}}
   content = content.replace(/\{\{baseUrl\}\}/g, '{{url}}');
+{% endraw %}
 
   // 2. Find the operation in OpenAPI to get dummy data
   const methodMatch = content.match(/^(get|post|put|delete|patch)\s*\{/m);
