@@ -1,18 +1,6 @@
 import type { ReactElement } from "react";
 import { ChevronRight } from "lucide-react";
-
-interface ActuatorBean {
-  aliases: string[];
-  scope: string;
-  type: string;
-  resource: string | null;
-  dependencies: string[];
-}
-
-interface BeanInfo extends ActuatorBean {
-  name: string;
-  context: string;
-}
+import type { BeanInfo } from "../beanTypes";
 
 export function BeanRow({
   bean,

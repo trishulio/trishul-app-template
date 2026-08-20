@@ -1,96 +1,30 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { signOut, getCurrentUser } from "aws-amplify/auth";
-import type { UserDto } from "@/lib/api/model";
-import { initTenantFromSession, clearTenantId } from "@/lib/auth/tenantStorage";
+import { createJSONStorage, persist } from "zustand/middleware";
+import type { AuthState } from "./authStoreTypes";
+import { sessionStorageAdapter } from "@/lib/auth/sessionStorage";
+import { checkAuthStatus, logout } from "./authActions";
 
-interface AuthState {
-  // State
-  user: UserDto | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
+const NAME = "{{ cookiecutter.project_slug }}-auth";
 
-  // Actions
-  checkAuthStatus: () => Promise<void>;
-  logout: () => Promise<void>;
-  setLoading: (loading: boolean) => void;
-  setUser: (user: UserDto | null) => void;
-}
+const storage =
+  typeof window !== "undefined"
+    ? createJSONStorage(() => sessionStorageAdapter)
+    : undefined;
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      // Initial state
       user: null,
       isAuthenticated: false,
       isLoading: false,
-
-      // Actions
-      checkAuthStatus: async () => {
-        try {
-          // First, verify Amplify auth is set up
-          await getCurrentUser();
-          // Auth is valid, component will fetch UserDTO via useGetCurrentUser hook
-          set({
-            isAuthenticated: true,
-          });
-          // Derive and persist the tenant ID from the user's Cognito groups.
-          // Temporary hack until the tenant-selection UI is implemented.
-          await initTenantFromSession();
-        } catch {
-          console.debug("No authentication found, showing custom login...");
-          set({
-            user: null,
-            isAuthenticated: false,
-          });
-        }
-      },
-
-      logout: async () => {
-        try {
-          set({ isLoading: true });
-          await signOut();
-          clearTenantId();
-          set({
-            user: null,
-            isAuthenticated: false,
-          });
-        } catch (error) {
-          console.error("Logout failed:", error);
-          // Clear state anyway
-          clearTenantId();
-          set({
-            user: null,
-            isAuthenticated: false,
-          });
-        } finally {
-          set({ isLoading: false });
-        }
-      },
-
-      setLoading: (loading) => {
-        set({ isLoading: loading });
-      },
-
-      setUser: (user: UserDto | null) => {
-        set({ user });
-      },
+      checkAuthStatus: () => checkAuthStatus(set),
+      logout: () => logout(set),
+      setLoading: (loading) => set({ isLoading: loading }),
+      setUser: (user) => set({ user }),
     }),
     {
-      name: "{{ cookiecutter.project_slug }}-auth",
-      storage:
-        typeof window !== "undefined"
-          ? {
-            getItem: (key) => {
-              const item = sessionStorage.getItem(key);
-              return item ? JSON.parse(item) : null;
-            },
-            setItem: (key, value) => {
-              sessionStorage.setItem(key, JSON.stringify(value));
-            },
-            removeItem: (key) => sessionStorage.removeItem(key),
-          }
-          : undefined,
+      name: NAME,
+      storage,
     },
   ),
 );
