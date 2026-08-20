@@ -1734,6 +1734,13 @@ public class UserServiceAutoConfiguration {
 - **Refresher Beans**: A series of `AccessorRefresher` beans are defined to handle refreshing different entity relationships (e.g., `assignedTo`, `ownedBy`). These are then composed into a single `UserRefresher` bean, which is injected into the `repoService`. This pattern is central to resolving nested objects efficiently.
 - **`@ConditionalOnMissingBean`**: This annotation ensures that these default beans are only created if a bean of the same type has not already been defined elsewhere, allowing for easy customization and overriding.
 
+#### Autoconfiguration & dependency-injection conventions (add to the above pattern)
+- **Do not annotate domain services with `@Service`/`@Component`.** Domain services are plain classes registered as `@Bean`s in the per-domain autoconfiguration (as above). This keeps bean wiring explicit and overridable via `@ConditionalOnMissingBean`. Audit entity listeners and their configurers are also registered as beans here rather than `@Component`, because Hibernate instantiates `@EntityListeners` directly.
+- **Current user**: read from `sh.trishul.auth.session.context.holder.ContextHolder` (`contextHolder.getPrincipalContext().getUsername()`), NOT Spring's `SecurityContextHolder`. Inject the `ContextHolder` bean into the service constructor (a `ThreadLocalContextHolder` impl is provided by `AuthAutoConfiguration`).
+- **JSON serialization**: use `sh.trishul.model.json.JsonMapper.INSTANCE.writeString(...)` (a static `INSTANCE`; not a Spring bean) instead of hand-rolling an `ObjectMapper` with a `JavaTimeModule`.
+- **Entity decorators**: call the injected decorator unconditionally — skip redundant `entities != null && !entities.isEmpty()` guards; the internal decorator already handles empty input.
+- **Free-text search**: `RepoService` provides a `default Page<E> search(String query, String[][] fieldPaths, SortedSet<String> sort, boolean orderAscending, int page, int size)` that tokenizes the query (AND across terms, OR across field paths) using an `ilike` predicate. Prefer delegating domain `getXxx(.../*search*/...)` methods to `repoService.search(...)` instead of re-implementing tokenize/OR/AND loops manually.
+
 
 ## Naming & Style Conventions
 - **Reserved Words**: Prefix table names with `_` if they are SQL reserved words (e.g., `_USER`).

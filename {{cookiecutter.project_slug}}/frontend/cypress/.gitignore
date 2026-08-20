@@ -1,0 +1,3 @@
+# Cypress run artifacts (screenshots on failure, videos of runs)
+screenshots/
+videos/

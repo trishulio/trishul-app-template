@@ -8,7 +8,7 @@
     --card-foreground: 20 10% 8%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 10% 8%;
-    /* Amber-gold primary — luxury optical brand */
+    /* Primary brand accent */
     --primary: 38 95% 52%;
     --primary-foreground: 20 10% 8%;
     --secondary: 30 10% 94%;
@@ -51,7 +51,7 @@
     --card-foreground: 30 10% 97%;
     --popover: 20 8% 8%;
     --popover-foreground: 30 10% 97%;
-    /* Amber-gold primary — luxury optical brand */
+    /* Primary brand accent */
     --primary: 38 95% 55%;
     --primary-foreground: 20 10% 8%;
     --secondary: 20 8% 14%;
