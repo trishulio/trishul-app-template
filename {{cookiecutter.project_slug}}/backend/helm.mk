@@ -7,8 +7,6 @@ APP_NAME_PREFIX:=$(shell awk '/^app:/ {flag=1; next} /^[^ ]/ {flag=0} flag && /^
 ENV_NAME:=$(shell awk '/^env:/ {print $$2}' chart/$(VALUES_FILE))
 NAMESPACE:=$(APP_NAME_PREFIX)-$(ENV_NAME)
 
-## TODO: Change this to deployment and calculate values-file, and namespace from it.
-
 DOCKER_COMPOSE_HELM := docker-compose -f ../docker-compose-bin.yml run --rm --remove-orphans helm
 
 deploy:

@@ -151,9 +151,9 @@ spec:
                   key: databaseHost
                   optional: false
             - name: SPRING_DATASOURCE_URL
-              value: "$(DB_BASE_URL)?currentSchema={{ cookiecutter.project_slug }}_admin_00000000_0000_0000_0000_000000000000"
+              value: "$(DB_BASE_URL)?currentSchema={{ .Values.trishul.adminDsSchemaPrefix }}00000000_0000_0000_0000_000000000000"
             - name: SPRING_DATASOURCE_DEFAULT_SCHEMA
-              value: "{{ cookiecutter.project_slug }}_admin_00000000_0000_0000_0000_000000000000"
+              value: "{{ .Values.trishul.adminDsSchemaPrefix }}00000000_0000_0000_0000_000000000000"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -287,7 +287,7 @@ spec:
                   key: awsCognitoUserPoolUrl
                   optional: false
             - name: APP_NAME
-              value: {{ cookiecutter.project_slug }} # TODO Fix later
+              value: {{ .Values.app.name }} # TODO Fix later
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.env | quote }}
             - name: REDIS_HOST

@@ -5,6 +5,7 @@
   "description": "Local dependencies for Bruno collection generation",
   "type": "commonjs",
   "dependencies": {
+    "@usebruno/cli": "3.3.0",
     "openapi-sampler": "1.7.2"
   }
 }

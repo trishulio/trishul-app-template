@@ -31,7 +31,7 @@ minikube_containerize:
 
 local_containerize:
 	docker system prune -f
-	./mvnw -DskipTests compile jib:dockerBuild -Dimage=$(APP_NAME):$(VERSION)
+	$(DOCKER_COMPOSE_MAVEN) mvn -DskipTests compile jib:dockerBuild -Dimage=$(APP_NAME):$(VERSION)
 
 publish: login_repo
 	docker push $(REGISTRY)/$(ECR_REPO):$(VERSION)
