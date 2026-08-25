@@ -27,9 +27,14 @@ services:
       AWS_COGNITO_URL: "${AWS_COGNITO_URL}"
       AWS_COGNITO_USER_POOL_URL: "${AWS_COGNITO_USER_POOL_URL}"
       AWS_SECRETS_MANAGER_URL: "${AWS_SECRETS_MANAGER_URL}"
+      AWS_SESSION_TOKEN: "${AWS_SESSION_TOKEN}"
+      AWS_PROFILE: "${AWS_PROFILE}"
     volumes:
       - ${PWD}:${PWD}
       - ${HOME}/.m2/:/root/.m2
+      - ${HOME}/.aws:/root/.aws
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/.docker/config.json:/root/.docker/config.json
 
   helm:
     image: alpine/helm:3.9.2
@@ -54,3 +59,5 @@ services:
       AWS_PROFILE: ${AWS_PROFILE}
     volumes:
       - ${HOME}/.aws:/root/.aws
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/.docker/config.json:/root/.docker/config.json

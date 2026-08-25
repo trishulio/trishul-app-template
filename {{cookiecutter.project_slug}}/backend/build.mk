@@ -23,13 +23,13 @@ login_repo:
 	AWS_IGNORE_CONFIGURED_ENDPOINT_URLS=true \
 	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(REGISTRY)
 
-containerize:
+containerize: login_repo
 	$(DOCKER_COMPOSE_MAVEN) mvn -DskipTests -Dimage=$(REGISTRY)/$(ECR_REPO):$(VERSION) jib:build
 
-minikube_containerize:
+minikube_containerize: login_repo
 	eval $$(minikube -p minikube docker-env) && ./mvnw -DskipTests compile jib:dockerBuild -Dimage=$(APP_NAME):$(VERSION)
 
-local_containerize:
+local_containerize: login_repo
 	docker system prune -f
 	$(DOCKER_COMPOSE_MAVEN) mvn -DskipTests compile jib:dockerBuild -Dimage=$(APP_NAME):$(VERSION)
 

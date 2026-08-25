@@ -18,7 +18,6 @@ services:
       - ./reverse-proxy/static/etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem
       - ./reverse-proxy/static/etc/nginx/ssl/live/localhost:/etc/nginx/ssl/live/localhost
 
-
   app_postgres:
     image: postgres:17-alpine
     restart: always
@@ -39,11 +38,11 @@ services:
     image: dpage/pgadmin4
     restart: always
     ports:
-        - "8443:443"
+      - "8443:443"
     environment:
-        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-        PGADMIN_LISTEN_PORT: "443"
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: "443"
     volumes:
       - db-admin-data:/var/lib/pgadmin
       - ./pgadmin/servers.json:/pgadmin4/servers.json
@@ -63,8 +62,8 @@ services:
   localstack:
     image: localstack/localstack:4.8.1
     ports:
-      - "4566:4566"   # LocalStack Edge Port
-      - "4510-4559:4510-4559"  # external services port range
+      - "4566:4566" 
+      - "4510-4559:4510-4559" # external services port range
     environment:
       - DEBUG=1
       - DOCKER_HOST=unix:///var/run/docker.sock

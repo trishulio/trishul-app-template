@@ -30,6 +30,7 @@ const bruFiles = getFiles(collectionPath);
 
 for (const bruFile of bruFiles) {
   let content = fs.readFileSync(bruFile, 'utf8');
+
 {% raw %}
   // 1. Replace {{baseUrl}} with {{url}}
   content = content.replace(/\{\{baseUrl\}\}/g, '{{url}}');
@@ -145,19 +146,46 @@ if (!fs.existsSync(envDir)) {
 if (fs.existsSync(envFilePath)) {
   const envVars = parseEnvFile(envFilePath);
 
-  const envContent = `vars {
-  cognito_client_secret: ${envVars.COGNITO_CLIENT_SECRET || ''}
-  cognito_client_id: ${envVars.COGNITO_CLIENT_ID || ''}
-  cognito_url: ${envVars.COGNITO_URL || ''}
-  cognito_redirect_url: ${envVars.COGNITO_REDIRECT_URL || ''}
-  url: ${envVars.URL || envVars.APP_URL || ''}
-  active_tenant_id: ${envVars.ACTIVE_TENANT_ID || ''}
-  tenant_id: ${envVars.TENANT_ID || ''}
+  const rootDir = path.join(backendDir, '..');
+  const landscapesDir = path.join(rootDir, 'infrastructure', 'landscapes');
+  
+  let environments = [];
+  if (fs.existsSync(landscapesDir)) {
+    environments = fs.readdirSync(landscapesDir).filter(f => fs.statSync(path.join(landscapesDir, f)).isDirectory());
+  }
+  
+  if (!environments.includes('local')) {
+    environments.push('local');
+  }
+
+  for (const envName of environments) {
+    const getVal = (key) => {
+      const k1 = `${envName}__${key}`;
+      const k2 = `${envName.toUpperCase()}__${key}`;
+      const k3 = `${envName.toLowerCase()}__${key}`;
+      // Fallback for local without prefix
+      if (envName === 'local' && (envVars[key] !== undefined)) {
+        return envVars[key];
+      }
+      return envVars[k1] || envVars[k2] || envVars[k3] || '';
+    };
+
+    const envContent = `vars {
+  cognito_client_secret: ${getVal('COGNITO_CLIENT_SECRET')}
+  cognito_client_id: ${getVal('COGNITO_CLIENT_ID')}
+  cognito_url: ${getVal('COGNITO_URL')}
+  cognito_redirect_url: ${getVal('COGNITO_REDIRECT_URL')}
+  url: ${getVal('URL') || getVal('APP_URL')}
+  active_tenant_id: ${getVal('ACTIVE_TENANT_ID')}
+  tenant_id: ${getVal('TENANT_ID')}
 }
 `;
-  const outPath = path.join(envDir, 'Local.bru');
-  fs.writeFileSync(outPath, envContent);
-  console.log(`Created environment file from ${envFilePath} at ${outPath}`);
+    // Name the file properly e.g. Cloudville.bru
+    const bruFileName = envName.charAt(0).toUpperCase() + envName.slice(1) + '.bru';
+    const outPath = path.join(envDir, bruFileName);
+    fs.writeFileSync(outPath, envContent);
+    console.log(`Created environment file for ${envName} at ${outPath}`);
+  }
 }
 
 // 5. Update collection.bru for OAuth2
@@ -186,6 +214,7 @@ auth:oauth2 {
   scope: email openid phone
   state:
   pkce: true
+  token_header_prefix: Bearer
 }
 {% endraw %}
 `;

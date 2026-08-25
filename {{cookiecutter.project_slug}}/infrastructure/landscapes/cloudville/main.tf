@@ -22,7 +22,7 @@ data "terraform_remote_state" "platform" {
 }
 
 module "landscape_cloudville" {
-  source              = "../../../../infrastructure-provisioner/module-set/landscape"
+  source              = "github.com/trishulio/infrastructure-provisioner//module-set/landscape"
   aws_account         = "081212343238"
   aws_region          = "ca-central-1"
   env_name            = "cloudville"
@@ -45,6 +45,7 @@ module "landscape_cloudville" {
     redis_private_url = "redis://:testredis@cloudville-redis-master.default:6379"
   }
   kube_config_path      = pathexpand("~/.kube/cloudville.config")
+  openrouter_app_key    = var.openrouter_app_key
   cloudflare_account_id = var.cloudflare_account_id
   cloudflare_api_token  = var.cloudflare_api_token
   http_port             = 800
@@ -59,5 +60,11 @@ variable "cloudflare_account_id" {
 variable "cloudflare_api_token" {
   type        = string
   description = "Cloudflare API Token"
+  sensitive   = true
+}
+
+variable "openrouter_app_key" {
+  type        = string
+  description = "OpenRouter API Key"
   sensitive   = true
 }

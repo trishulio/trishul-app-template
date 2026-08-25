@@ -120,6 +120,8 @@ spec:
           env:
             - name: JAVA_TOOL_OPTIONS
               value: {{ .Values.app.javaToolOptions | quote }}
+            - name: AWS_JAVA_V1_DISABLE_DEPRECATION_ANNOUNCEMENT
+              value: "true"
             - name: APP_ADMIN_USER
               valueFrom:
                 secretKeyRef:
@@ -152,8 +154,6 @@ spec:
                   optional: false
             - name: SPRING_DATASOURCE_URL
               value: "$(DB_BASE_URL)?currentSchema={{ .Values.trishul.adminDsSchemaPrefix }}00000000_0000_0000_0000_000000000000"
-            - name: SPRING_DATASOURCE_DEFAULT_SCHEMA
-              value: "{{ .Values.trishul.adminDsSchemaPrefix }}00000000_0000_0000_0000_000000000000"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
