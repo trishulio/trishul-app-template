@@ -44,6 +44,28 @@ provider "registry.terraform.io/cloudflare/cloudflare" {
   ]
 }
 
+provider "registry.terraform.io/cloudopsworks/openrouter" {
+  version     = "0.3.0"
+  constraints = "~> 0.1"
+  hashes = [
+    "h1:4htYdfth9xCflgcyUigXlb1J5ySTCbRimWgjCm5sATE=",
+    "zh:0208c99bd8c02b143b3817b4adad3a1771ef0cada8208160791467e69f02920f",
+    "zh:14b55f5547dd4eca35e2b345237bfa610e9df11fbe188fd3568f7c8d5f232765",
+    "zh:20497604da9bb29139412b7b92696cf456c8bbb05e03e9c10be11668ea64b125",
+    "zh:2b83c152ec77ff5ad5087a01ea6a33d5107faad06500330e3b8395678c67494a",
+    "zh:3a5e484f00e215e9ac9cf16b3d52dbc86edf6f1156f1a417c1b718087eeed573",
+    "zh:4ef1145a5b85e2878bf49711bfc9b6fd16be90084961837f99bf1322597e43f7",
+    "zh:5d28257ef5aa53c42d1ed1189a891748b3c7efbd3148342b8aef420304d6cab1",
+    "zh:653d76fa8505d327006af451d470627708856fdbd3ef4c42989ccf6a7d3d227e",
+    "zh:705a30f5745c03db151700adacfe769fc226b25a2c6114eaf3cf86c138538ab9",
+    "zh:707c33ca26d249f54d4401fa97267679cb09eb9fac7dd3234fc4ffda10030e95",
+    "zh:86347f5adaf19bdf65ec8665c410c2e31390d567fff2949ced6d23f19ac568fd",
+    "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
+    "zh:ef64bfb3acbb8a7fed8b6e7f2377e3ef1fe81802caaf434915ac9b6196cb2fda",
+    "zh:f829e63ef1c692b92aec1dd00a30aee291e2a5c821201965fe26cc39e0a064ca",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/aws" {
   version     = "5.62.0"
   constraints = "~> 5.62.0"

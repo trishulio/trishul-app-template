@@ -12,11 +12,45 @@ module "landscape_development" {
   platform_tfstate_region   = "ca-central-1"
   platform_tfstate_profile  = "engineering"
   platform_tfstate_role_arn = "arn:aws:iam::211125344508:role/ResourceManager"
-  persistence_enabled       = false
+
+  app_name = "{{ cookiecutter.project_slug }}"
+  
+  openrouter_app_key = var.openrouter_app_key
+
+  database = {
+    cluster = {
+      private_host = "host.minikube.internal"
+      port         = 5432
+      database     = "{{ cookiecutter.project_slug }}"
+      user         = "postgres"
+      password     = "postgres"
+    }
+    app_user = {
+      name     = "postgres"
+      password = "postgres"
+    }
+    db_private_url = "jdbc:postgresql://host.minikube.internal:5432/{{ cookiecutter.project_slug }}"
+  }
+
+  redis = {
+    cluster = {
+      private_host = "host.minikube.internal"
+      port         = 6379
+      password     = "dummy"
+    }
+    redis_private_url = "redis://host.minikube.internal:6379"
+  }
 }
 
 variable "k8_cluster" {
   type        = any
   description = "Reference to the Kubernetes Cluster object"
+  sensitive   = true
+  default     = {}
+}
+
+variable "openrouter_app_key" {
+  type        = string
+  description = "OpenRouter API Key"
   sensitive   = true
 }

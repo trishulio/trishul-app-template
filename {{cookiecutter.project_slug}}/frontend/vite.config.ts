@@ -40,7 +40,10 @@ export default defineConfig(({ mode }) => {
               handler: "CacheFirst",
               options: {
                 cacheName: "static-assets-v1",
-                expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 365 },
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 60 * 60 * 24 * 365,
+                },
                 cacheableResponse: { statuses: [0, 200] },
               },
             },
@@ -50,7 +53,10 @@ export default defineConfig(({ mode }) => {
               handler: "CacheFirst",
               options: {
                 cacheName: "image-cache-v1",
-                expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 30 },
+                expiration: {
+                  maxEntries: 60,
+                  maxAgeSeconds: 60 * 60 * 24 * 30,
+                },
                 cacheableResponse: { statuses: [0, 200] },
               },
             },
@@ -60,7 +66,10 @@ export default defineConfig(({ mode }) => {
               handler: "StaleWhileRevalidate",
               options: {
                 cacheName: "google-fonts-v1",
-                expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 },
+                expiration: {
+                  maxEntries: 20,
+                  maxAgeSeconds: 60 * 60 * 24 * 365,
+                },
                 cacheableResponse: { statuses: [0, 200] },
               },
             },
@@ -184,12 +193,18 @@ export default defineConfig(({ mode }) => {
             }
 
             // 4. AWS Amplify (largest vendor, infrequent updates)
-            if (id.includes("node_modules/aws-amplify") || id.includes("node_modules/@aws-")) {
+            if (
+              id.includes("node_modules/aws-amplify") ||
+              id.includes("node_modules/@aws-")
+            ) {
               return "vendor-aws";
             }
 
             // 5. Axios
-            if (id.includes("node_modules/axios") || id.includes("node_modules/proxy-from-env")) {
+            if (
+              id.includes("node_modules/axios") ||
+              id.includes("node_modules/proxy-from-env")
+            ) {
               return "vendor-http";
             }
 
@@ -223,24 +238,6 @@ export default defineConfig(({ mode }) => {
               id.includes("node_modules/tailwind-merge")
             ) {
               return "vendor-utils";
-            }
-
-            // 11. shadcn/ui components
-            if (id.includes("/src/components/ui/")) {
-              return "app-ui";
-            }
-
-            // 12. Shared lib code (api clients, hooks, stores)
-            if (id.includes("/src/lib/") || id.includes("/src/hooks/") || id.includes("/src/stores/")) {
-              return "app-shared";
-            }
-
-            // 13. Shared non-page components
-            if (
-              id.includes("/src/components/") &&
-              !id.includes("/src/components/ui/")
-            ) {
-              return "app-components";
             }
 
             // Pages fall through → dynamic chunks from lazy() imports in AppRoutes ✅
