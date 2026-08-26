@@ -17,6 +17,6 @@ module "landscape_engineering" {
   app_name        = "{{ cookiecutter.project_slug }}"
   tld             = "{{ cookiecutter.tld }}"
   app_subdomain   = "engineering"
-  app_urls        = ["https://localhost/"]
+  additional_urls = ["https://localhost/"]
   app_logout_urls = ["https://localhost/logout/"]
 }
