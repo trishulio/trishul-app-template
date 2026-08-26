@@ -1,5 +1,5 @@
 module "landscape_development" {
-  source = "github.com/trishulio/infrastructure-provisioner//module-set/development"
+  source = "github.com/trishulio/infrastructure-provisioner//infra/landscape-templates/development"
 
   env_name                  = "development"
   aws_account               = "211125533390"
@@ -7,6 +7,7 @@ module "landscape_development" {
   aws_region                = "ca-central-1"
   app_urls                  = ["https://localhost/"]
   k8_cluster                = var.k8_cluster
+  kube_config_path          = pathexpand("~/.kube/desktop.config")
   platform_tfstate_bucket   = "trishul-tfstate"
   platform_tfstate_key      = "apps/{{ cookiecutter.project_slug }}/terraform.engineering.tfstate"
   platform_tfstate_region   = "ca-central-1"
@@ -14,7 +15,7 @@ module "landscape_development" {
   platform_tfstate_role_arn = "arn:aws:iam::211125344508:role/ResourceManager"
 
   app_name = "{{ cookiecutter.project_slug }}"
-  
+
   openrouter_app_key = var.openrouter_app_key
 
   database = {

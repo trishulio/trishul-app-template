@@ -22,7 +22,7 @@ data "terraform_remote_state" "platform" {
 }
 
 module "landscape_cloudville" {
-  source              = "github.com/trishulio/infrastructure-provisioner//module-set/landscape"
+  source              = "github.com/trishulio/infrastructure-provisioner//infra/landscape-templates/landscape-on-prem"
   aws_account         = "081212343238"
   aws_region          = "ca-central-1"
   env_name            = "cloudville"
