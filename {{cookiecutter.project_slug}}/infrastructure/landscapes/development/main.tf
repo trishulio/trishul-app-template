@@ -16,8 +16,6 @@ module "landscape_development" {
 
   app_name = "{{ cookiecutter.project_slug }}"
 
-  openrouter_app_key = var.openrouter_app_key
-
   database = {
     cluster = {
       private_host = "host.minikube.internal"
@@ -48,10 +46,4 @@ variable "k8_cluster" {
   description = "Reference to the Kubernetes Cluster object"
   sensitive   = true
   default     = {}
-}
-
-variable "openrouter_app_key" {
-  type        = string
-  description = "OpenRouter API Key"
-  sensitive   = true
 }

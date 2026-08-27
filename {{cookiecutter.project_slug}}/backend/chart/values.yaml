@@ -27,9 +27,6 @@ env: dev
 
 trishul:
   tenantMigrationOnStartupEnabled: "true"
-  adminTenantName: {{ cookiecutter.project_slug }}_admin
-  adminDsSchemaPrefix: {{ cookiecutter.project_slug }}_admin_
-  tenantDsSchemaPrefix: {{ cookiecutter.project_slug }}_
 
 twilio:
   accountSid: dummy
