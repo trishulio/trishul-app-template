@@ -50,6 +50,9 @@ module "landscape_cloudville" {
   cloudflare_api_token  = var.cloudflare_api_token
   http_port             = 800
   https_port            = 4430
+  sentry_organization   = var.sentry_organization
+  sentry_team           = var.sentry_team
+  sentry_auth_token     = var.sentry_auth_token
 }
 
 variable "cloudflare_account_id" {
@@ -66,5 +69,22 @@ variable "cloudflare_api_token" {
 variable "openrouter_app_key" {
   type        = string
   description = "OpenRouter API Key"
+  sensitive   = true
+}
+
+
+variable "sentry_organization" {
+  type        = string
+  description = "The slug of the Sentry organization"
+}
+
+variable "sentry_team" {
+  type        = string
+  description = "The slug of the Sentry team"
+}
+
+variable "sentry_auth_token" {
+  type        = string
+  description = "The authentication token for Sentry"
   sensitive   = true
 }

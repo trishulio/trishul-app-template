@@ -41,6 +41,9 @@ module "landscape_development" {
     }
     redis_private_url = "redis://host.minikube.internal:6379"
   }
+  sentry_organization   = var.sentry_organization
+  sentry_team           = var.sentry_team
+  sentry_auth_token     = var.sentry_auth_token
 }
 
 variable "k8_cluster" {
@@ -53,5 +56,22 @@ variable "k8_cluster" {
 variable "openrouter_app_key" {
   type        = string
   description = "OpenRouter API Key"
+  sensitive   = true
+}
+
+
+variable "sentry_organization" {
+  type        = string
+  description = "The slug of the Sentry organization"
+}
+
+variable "sentry_team" {
+  type        = string
+  description = "The slug of the Sentry team"
+}
+
+variable "sentry_auth_token" {
+  type        = string
+  description = "The authentication token for Sentry"
   sensitive   = true
 }

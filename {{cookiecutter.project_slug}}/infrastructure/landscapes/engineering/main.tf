@@ -19,4 +19,24 @@ module "landscape_engineering" {
   app_subdomain   = "engineering"
   additional_urls = ["https://localhost/"]
   app_logout_urls = ["https://localhost/logout/"]
+  sentry_organization   = var.sentry_organization
+  sentry_team           = var.sentry_team
+  sentry_auth_token     = var.sentry_auth_token
+}
+
+
+variable "sentry_organization" {
+  type        = string
+  description = "The slug of the Sentry organization"
+}
+
+variable "sentry_team" {
+  type        = string
+  description = "The slug of the Sentry team"
+}
+
+variable "sentry_auth_token" {
+  type        = string
+  description = "The authentication token for Sentry"
+  sensitive   = true
 }
