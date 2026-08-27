@@ -54,8 +54,6 @@ variable "cloudflare_api_token" {
   sensitive   = true
 }
 
-
-
 variable "sentry_organization" {
   type        = string
   description = "The slug of the Sentry organization"

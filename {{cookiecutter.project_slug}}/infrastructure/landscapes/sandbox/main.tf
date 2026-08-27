@@ -36,12 +36,10 @@ module "landscape_sandbox" {
   redis               = data.terraform_remote_state.platform.outputs.redis
   is_cloud            = true
   load_balancer_ip    = data.terraform_remote_state.platform.outputs.load_balancer_ip
-  sentry_organization   = var.sentry_organization
-  sentry_team           = var.sentry_team
-  sentry_auth_token     = var.sentry_auth_token
+  sentry_organization = var.sentry_organization
+  sentry_team         = var.sentry_team
+  sentry_auth_token   = var.sentry_auth_token
 }
-
-
 
 variable "sentry_organization" {
   type        = string

@@ -72,7 +72,6 @@ variable "openrouter_app_key" {
   sensitive   = true
 }
 
-
 variable "sentry_organization" {
   type        = string
   description = "The slug of the Sentry organization"
