@@ -10,7 +10,7 @@ terraform {
 }
 
 module "landscape_engineering" {
-  source          = "github.com/trishulio/infrastructure-provisioner//infra/module-sets/aws"
+  source              = "github.com/trishulio/infrastructure-provisioner//infra/landscape-templates/engineering"
   aws_account     = "211125533390"
   aws_region      = "ca-central-1"
   env_name        = "engineering"
@@ -18,12 +18,12 @@ module "landscape_engineering" {
   tld             = "{{ cookiecutter.tld }}"
   app_subdomain   = "engineering"
   additional_urls = ["https://localhost/"]
-  app_logout_urls = ["https://localhost/logout/"]
-  sentry_organization   = var.sentry_organization
-  sentry_team           = var.sentry_team
-  sentry_auth_token     = var.sentry_auth_token
+  app_logout_urls     = ["https://localhost/logout/"]
+  sentry_organization = var.sentry_organization
+  sentry_team         = var.sentry_team
+  sentry_auth_token   = var.sentry_auth_token
+  openrouter_app_key  = var.openrouter_app_key
 }
-
 
 variable "sentry_organization" {
   type        = string
@@ -38,5 +38,11 @@ variable "sentry_team" {
 variable "sentry_auth_token" {
   type        = string
   description = "The authentication token for Sentry"
+  sensitive   = true
+}
+
+variable "openrouter_app_key" {
+  type        = string
+  description = "OpenRouter API Key used by the application"
   sensitive   = true
 }

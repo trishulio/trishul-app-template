@@ -45,3 +45,17 @@ output "aws_secrets_manager_access_secret_key" {
     value = module.landscape_engineering.aws_secrets_manager_access_secret_key
     sensitive = true
 }
+
+output "tenant_admin_group_id" {
+    value = module.landscape_engineering.tenant_admin_group_id
+}
+
+output "sentry_dsn" {
+    value       = module.landscape_engineering.sentry_dsn
+    description = "The public DSN for the Sentry project"
+}
+
+output "openrouter_api_key" {
+    value     = module.landscape_engineering.openrouter_api_key
+    sensitive = true
+}
