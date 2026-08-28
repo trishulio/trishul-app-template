@@ -7,7 +7,7 @@ APP_NAME_PREFIX:=$(shell awk '/^app:/ {flag=1; next} /^[^ ]/ {flag=0} flag && /^
 ENV_NAME ?= $(shell awk '/^env:/ {print $$2}' chart/values.yaml)
 NAMESPACE:=$(APP_NAME_PREFIX)-$(ENV_NAME)
 
-DOCKER_COMPOSE_HELM := docker-compose -f ../docker-compose-bin.yml run --rm --remove-orphans helm
+DOCKER_COMPOSE_HELM := docker compose -f ../docker-compose-bin.yml run --rm --remove-orphans helm
 
 deploy:
 	(cd chart && ${DOCKER_COMPOSE_HELM} upgrade --install -f values.yaml -f ${VALUES_FILE} -n ${NAMESPACE} ${APP_NAME} . --set image.tag=${VERSION})
