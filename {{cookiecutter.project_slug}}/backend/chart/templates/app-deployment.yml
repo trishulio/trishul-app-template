@@ -316,6 +316,12 @@ spec:
                   name: admin-tenant-config
                   key: adminTenantName
                   optional: false
+            - name: ADMIN_DS_SCHEMA_PREFIX
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-tenant-config
+                  key: adminDsSchemaPrefix
+                  optional: false
             - name: TENANT_DS_SCHEMA_PREFIX
               valueFrom:
                 configMapKeyRef:
