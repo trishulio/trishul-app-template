@@ -153,7 +153,7 @@ spec:
                   key: databaseHost
                   optional: false
             - name: SPRING_DATASOURCE_URL
-              value: "$(DB_BASE_URL)?currentSchema={{ .Values.trishul.adminDsSchemaPrefix }}00000000_0000_0000_0000_000000000000"
+              value: "$(DB_BASE_URL)?currentSchema=$(ADMIN_TENANT_SCHEMA)"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -315,12 +315,6 @@ spec:
                 configMapKeyRef:
                   name: admin-tenant-config
                   key: adminTenantName
-                  optional: false
-            - name: ADMIN_DS_SCHEMA_PREFIX
-              valueFrom:
-                configMapKeyRef:
-                  name: admin-tenant-config
-                  key: adminDsSchemaPrefix
                   optional: false
             - name: TENANT_DS_SCHEMA_PREFIX
               valueFrom:
