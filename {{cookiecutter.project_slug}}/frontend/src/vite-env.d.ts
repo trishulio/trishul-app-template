@@ -8,6 +8,8 @@ interface ImportMetaEnv {
   readonly VITE_IDENTITY_POOL_ID: string;
   readonly VITE_BACKEND_URL: string;
   readonly VITE_CDN_URL: string;
+  readonly VITE_SENTRY_DSN?: string;
+  readonly VITE_APP_ENV?: string;
 }
 
 interface ImportMeta {

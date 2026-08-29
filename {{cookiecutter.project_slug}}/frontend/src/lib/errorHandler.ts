@@ -1,6 +1,8 @@
 import { toast } from "sonner";
 import { registerGlobalErrorListeners } from "./errorEvents";
 
+import { reportError } from "./sentry";
+
 export class ErrorHandler {
   private static initialized = false;
 
@@ -13,6 +15,9 @@ export class ErrorHandler {
   static handle(error: unknown, context?: string) {
     const message = error instanceof Error ? error.message : String(error);
     const title = context ? `${context}: ${message}` : message;
+    
+    reportError(error, { context });
+    
     toast.error(title, {
       description: "Please try again or contact support if the issue persists.",
       duration: 5000,
@@ -28,7 +33,10 @@ export class ErrorHandler {
     }
   }
 
-  static try<T>(fn: () => T, context?: string) {
+  /**
+   * Wrap a sync function to automatically handle errors
+   */
+  static try<T>(fn: () => T, context?: string): T | undefined {
     try {
       return fn();
     } catch (error) {

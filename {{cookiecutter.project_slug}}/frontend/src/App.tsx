@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import "./index.css";
 import { Toaster } from "sonner";
+import * as Sentry from "@sentry/react";
 
 focusManager.setEventListener((handleFocus) => {
   if (typeof window !== "undefined" && window.addEventListener) {
@@ -38,7 +39,7 @@ function AppContent() {
 
 function App() {
   return (
-    <ErrorBoundary>
+    <Sentry.ErrorBoundary fallback={<ErrorBoundary />}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider
           attribute="class"
@@ -51,7 +52,7 @@ function App() {
           </Router>
         </ThemeProvider>
       </QueryClientProvider>
-    </ErrorBoundary>
+    </Sentry.ErrorBoundary>
   );
 }
 
