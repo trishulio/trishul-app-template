@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { toast } from "sonner";
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
   fallback?: ReactNode;
 }
 
