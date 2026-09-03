@@ -8,6 +8,7 @@ target/
 **/build/
 dist/
 dist-ssr/
+dev-dist/
 node_modules/
 *.local
 
