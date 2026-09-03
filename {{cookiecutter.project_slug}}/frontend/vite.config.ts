@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -24,6 +25,11 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss(),
+      process.env.NODE_ENV === 'production' && sentryVitePlugin({
+        org: process.env.SENTRY_ORG || "{{ cookiecutter.project_slug }}",
+        project: process.env.SENTRY_PROJECT || "{{ cookiecutter.project_slug }}-frontend",
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+      }),
       VitePWA({
         registerType: "autoUpdate",
         includeAssets: [
@@ -164,7 +170,7 @@ export default defineConfig(({ mode }) => {
       // Inline assets ≤ 4 kB as base64 (avoids extra HTTP round-trips for tiny assets)
       assetsInlineThreshold: 4096,
 
-      sourcemap: false,
+      sourcemap: "hidden",
 
       // Warn when any individual output chunk exceeds 300 kB
       chunkSizeWarningLimit: 300,
@@ -235,7 +241,12 @@ export default defineConfig(({ mode }) => {
               return "vendor-state";
             }
 
-            // 10. Utility libraries (clsx, class-variance-authority, tailwind-merge)
+            // 10. Sentry
+            if (id.includes("node_modules/@sentry/")) {
+              return "vendor-sentry";
+            }
+
+            // 11. Utility libraries (clsx, class-variance-authority, tailwind-merge)
             if (
               id.includes("node_modules/clsx") ||
               id.includes("node_modules/class-variance-authority") ||
